@@ -13,10 +13,12 @@ export default function NavBar() {
     const nextLang = lang === 'tr' ? 'en' : 'tr';
     const newPath = pathname.replace(`/${lang}`, `/${nextLang}`);
     
-    // Set a cookie so middleware remembers preference
     document.cookie = `mist-lang=${nextLang}; path=/; max-age=31536000`;
     router.push(newPath);
   };
+
+  const isHomePage = pathname === `/${lang}`;
+  if (isHomePage) return null; // Let the homepage use its own specialized Header
 
   return (
     <nav className="nav-bar" id="navBar">
@@ -26,7 +28,7 @@ export default function NavBar() {
           <span className="nav-brand-text">MIST CAFÉ</span>
         </Link>
         <div className="nav-links">
-          <Link href={`/${lang}`} className={`nav-link ${pathname === `/${lang}` ? 'active' : ''}`}>{t('menu')}</Link>
+          <Link href={`/${lang}/menu`} className={`nav-link ${pathname === `/${lang}/menu` ? 'active' : ''}`}>{t('menu')}</Link>
           <Link href={`/${lang}/wifi`} className={`nav-link ${pathname === `/${lang}/wifi` ? 'active' : ''}`}>{t('wifi')}</Link>
           <Link href={`/${lang}/announcements`} className={`nav-link ${pathname === `/${lang}/announcements` ? 'active' : ''}`}>{t('announcements')}</Link>
           <Link href={`/${lang}/feedback`} className={`nav-link ${pathname === `/${lang}/feedback` ? 'active' : ''}`}>{t('feedback')}</Link>

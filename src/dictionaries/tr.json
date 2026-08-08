@@ -28,5 +28,14 @@
   "feedbackRating": "Puanınız:",
   "announcementsTitle": "Duyurular",
   "announcementsDesc": "Mist Café'den en güncel haberler ve etkinlikler.",
-  "itemsCount": "{count} ürün"
+  "itemsCount": "{count} ürün",
+  "cart": "Sepet",
+  "bill": "Hesap",
+  "qr": "QR Kodu Tara",
+  "slide1Title": "MIST CAFÉ",
+  "slide1Subtitle": "Doğal ve Serin bir deneyim yaşayın",
+  "slide2Title": "TAZE LEZZETLER",
+  "slide2Subtitle": "Yeni imza içeceklerimizi keşfedin",
+  "slide3Title": "PREMIUM KAHVE",
+  "slide3Subtitle": "Her seferinde mükemmelliğe demlendi"
 }

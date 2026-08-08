@@ -28,5 +28,14 @@
   "feedbackRating": "Your Rating:",
   "announcementsTitle": "Announcements",
   "announcementsDesc": "The latest news and events from Mist Café.",
-  "itemsCount": "{count} items"
+  "itemsCount": "{count} items",
+  "cart": "Cart",
+  "bill": "Bill",
+  "qr": "Scan QR Code",
+  "slide1Title": "MIST CAFÉ",
+  "slide1Subtitle": "Experience natural and refreshing moments",
+  "slide2Title": "FRESH FLAVORS",
+  "slide2Subtitle": "Discover our new signature drinks",
+  "slide3Title": "PREMIUM COFFEE",
+  "slide3Subtitle": "Brewed to perfection every time"
 }
