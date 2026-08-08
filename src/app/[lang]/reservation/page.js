@@ -38,8 +38,14 @@ export default function ReservationPage() {
               </div>
               
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '1rem' }}>
-                <input type="date" className="fancy-input" style={{ colorScheme: 'dark', width: '100%' }} required />
-                <input type="time" className="fancy-input" style={{ colorScheme: 'dark', width: '100%' }} required />
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                  <label style={{ fontSize: '0.85rem', color: 'var(--gray-400)', marginLeft: '0.8rem' }}>{t('resDate')}</label>
+                  <input type="date" className="fancy-input" style={{ colorScheme: 'dark', width: '100%' }} required />
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                  <label style={{ fontSize: '0.85rem', color: 'var(--gray-400)', marginLeft: '0.8rem' }}>{t('resTime')}</label>
+                  <input type="time" className="fancy-input" style={{ colorScheme: 'dark', width: '100%' }} required />
+                </div>
               </div>
 
               <select className="fancy-input" required defaultValue="" style={{ width: '100%', color: 'var(--gray-300)', appearance: 'none', backgroundColor: 'var(--glass-bg)' }}>
