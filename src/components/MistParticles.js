@@ -17,21 +17,24 @@ export default function MistParticles() {
   }, []);
 
   return (
-    <div className="mist-particles" aria-hidden="true">
-      {particles.map((p, i) => (
-        <div
-          key={i}
-          className="mist-particle"
-          style={{
-            width: `${p.size}px`,
-            height: `${p.size}px`,
-            left: `${p.left}%`,
-            animationDuration: `${p.duration}s`,
-            animationDelay: `${p.delay}s`,
-          }}
-        />
-      ))}
-    </div>
+    <>
+      <div className="bg-mesh-gradient" aria-hidden="true" />
+      <div className="mist-particles" aria-hidden="true">
+        {particles.map((p, i) => (
+          <div
+            key={i}
+            className="mist-particle"
+            style={{
+              width: `${p.size}px`,
+              height: `${p.size}px`,
+              left: `${p.left}%`,
+              animationDuration: `${p.duration}s`,
+              animationDelay: `${p.delay}s`,
+            }}
+          />
+        ))}
+      </div>
+    </>
   );
 }
 
