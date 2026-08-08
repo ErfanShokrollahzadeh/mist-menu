@@ -14,7 +14,7 @@ export default function NavBar() {
   const toggleLanguage = () => {
     const nextLang = lang === 'tr' ? 'en' : 'tr';
     const newPath = pathname.replace(`/${lang}`, `/${nextLang}`);
-    
+
     document.cookie = `mist-lang=${nextLang}; path=/; max-age=31536000`;
     router.push(newPath);
   };
@@ -28,11 +28,11 @@ export default function NavBar() {
     <>
       <nav className="nav-bar" id="navBar">
         <div className="nav-inner" style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', alignItems: 'center' }}>
-          
+
           {/* Left: Hamburger */}
           <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-            <button 
-              className="home-hamburger-btn" 
+            <button
+              className="home-hamburger-btn"
               onClick={() => setIsMenuOpen(true)}
               aria-label="Open menu"
             >
@@ -46,7 +46,7 @@ export default function NavBar() {
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <Link href={`/${lang}`} className="nav-brand">
               <img src="/logo.jpg" alt="Mist Cafe Logo" className="nav-logo" style={{ objectFit: 'cover' }} />
-              <span className="nav-brand-text">MiST CAFÉ</span>
+              <span className="nav-brand-text">MiST CAFÉ & LOUNGE</span>
             </Link>
           </div>
 
@@ -72,7 +72,7 @@ export default function NavBar() {
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
           </div>
-          
+
           <div className="side-menu-content">
             <div className="side-menu-links">
               <Link href={`/${lang}`} className="side-nav-link" onClick={closeMenu}>
