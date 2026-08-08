@@ -52,5 +52,18 @@
   "resPhone": "Phone Number",
   "resRequests": "Special Requests (Optional)",
   "resSubmit": "Confirm Reservation",
-  "resSuccess": "Your reservation request has been received! We will contact you shortly."
+  "resSuccess": "Your reservation request has been received! We will contact you shortly.",
+  "billTitle": "Bill & Payment",
+  "billDesc": "Split your bill or notify the cashier.",
+  "splitTitle": "Split the Bill",
+  "totalAmount": "Total Amount",
+  "numberOfPeople": "Number of People",
+  "perPerson": "Per Person",
+  "notifyCashier": "Notify Cashier",
+  "tableNumber": "Table Number",
+  "paymentMethod": "Payment Method",
+  "cash": "Cash",
+  "creditCard": "Credit Card",
+  "notifyBtn": "I'm Coming to Pay",
+  "notifySuccess": "The cashier has been notified. See you at the register!"
 }

@@ -52,5 +52,18 @@
   "resPhone": "Telefon Numaranız",
   "resRequests": "Özel İstekleriniz (Opsiyonel)",
   "resSubmit": "Rezervasyon Yap",
-  "resSuccess": "Rezervasyon talebiniz alındı! Sizinle en kısa sürede iletişime geçeceğiz."
+  "resSuccess": "Rezervasyon talebiniz alındı! Sizinle en kısa sürede iletişime geçeceğiz.",
+  "billTitle": "Hesap & Ödeme",
+  "billDesc": "Hesabınızı bölüştürün veya kasaya bildirin.",
+  "splitTitle": "Hesabı Böl",
+  "totalAmount": "Toplam Tutar",
+  "numberOfPeople": "Kişi Sayısı",
+  "perPerson": "Kişi Başı",
+  "notifyCashier": "Kasaya Bildir",
+  "tableNumber": "Masa No",
+  "paymentMethod": "Ödeme Yöntemi",
+  "cash": "Nakit",
+  "creditCard": "Kredi Kartı",
+  "notifyBtn": "Ödemeye Geliyorum",
+  "notifySuccess": "Kasa bilgilendirildi, sizi bekliyoruz!"
 }
