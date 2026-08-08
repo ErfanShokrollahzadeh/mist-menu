@@ -19,10 +19,16 @@ export const metadata = {
     "Mist Café'nin modern dijital menüsü. Kahvaltı, ana yemekler, tatlılar, kahveler ve daha fazlası.",
 };
 
+import { LanguageProvider } from "@/context/LanguageContext";
+
 export default function RootLayout({ children }) {
   return (
-    <html lang="tr" className={`${inter.variable} ${playfair.variable}`}>
-      <body suppressHydrationWarning>{children}</body>
+    <html lang="tr">
+      <body className={inter.className} suppressHydrationWarning={true}>
+        <LanguageProvider>
+          {children}
+        </LanguageProvider>
+      </body>
     </html>
   );
 }

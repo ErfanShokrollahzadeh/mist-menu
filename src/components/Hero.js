@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function Hero() {
   const ctaRef = useRef(null);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const btn = ctaRef.current;
@@ -29,8 +31,8 @@ export default function Hero() {
         <div className="logo-wrapper">
           <img src="/logo.jpg" alt="Mist Cafe Logo" className="logo-circle" style={{ objectFit: 'cover', padding: '0' }} />
         </div>
-        <h1 className="hero-title">MIST CAFÉ</h1>
-        <p className="hero-subtitle">Lezzet Burada Başlar</p>
+        <h1 className="hero-title">{t('heroTitle')}</h1>
+        <p className="hero-subtitle">{t('heroSubtitle')}</p>
 
         <div className="hero-divider">
           <span className="divider-line" />
@@ -38,8 +40,8 @@ export default function Hero() {
           <span className="divider-line" />
         </div>
 
-        <button className="hero-cta" ref={ctaRef} aria-label="Menüyü keşfet">
-          Menüyü Keşfet
+        <button className="hero-cta" ref={ctaRef} aria-label={t('heroBtn')}>
+          {t('heroBtn')}
           <svg
             width="20"
             height="20"

@@ -1,6 +1,6 @@
 "use client";
 
-export default function SearchBar({ value, onChange, onClear }) {
+export default function SearchBar({ value, onChange, onClear, placeholder = "Menüde ara..." }) {
   return (
     <div className="search-wrapper">
       <div className="search-bar">
@@ -18,7 +18,7 @@ export default function SearchBar({ value, onChange, onClear }) {
         </svg>
         <input
           type="text"
-          placeholder="Menüde ara..."
+          placeholder={placeholder}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           id="menuSearch"

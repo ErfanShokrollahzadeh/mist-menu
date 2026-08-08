@@ -1,9 +1,13 @@
+"use client";
 import NavBar from "@/components/NavBar";
 import MistParticles from "@/components/MistParticles";
 import Footer from "@/components/Footer";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function AnnouncementsPage() {
-  const announcements = [
+  const { lang, t } = useLanguage();
+
+  const announcementsTR = [
     {
       id: 1,
       title: "Yaz Menümüz Yayında!",
@@ -18,13 +22,30 @@ export default function AnnouncementsPage() {
     }
   ];
 
+  const announcementsEN = [
+    {
+      id: 1,
+      title: "Our Summer Menu is Live!",
+      date: "June 15",
+      content: "We are ready for the summer months with our refreshing new frozen and smoothie varieties. You can review them from the Cold Drinks tab in our menu."
+    },
+    {
+      id: 2,
+      title: "Live Music Nights",
+      date: "Every Friday & Saturday",
+      content: "We are with you on weekends with our live acoustic performances. Contact us for reservation."
+    }
+  ];
+
+  const announcements = lang === 'tr' ? announcementsTR : announcementsEN;
+
   return (
     <>
       <MistParticles />
       <NavBar />
       <main className="page-container reveal visible">
-        <h1 className="page-title">Duyurular</h1>
-        <p>Mist Café'den en güncel haberler ve etkinlikler.</p>
+        <h1 className="page-title">{t('announcementsTitle')}</h1>
+        <p>{t('announcementsDesc')}</p>
         
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', marginTop: '2rem' }}>
           {announcements.map(ann => (

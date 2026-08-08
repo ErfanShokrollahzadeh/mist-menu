@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useLanguage } from "@/context/LanguageContext";
 import Hero from "@/components/Hero";
 import NavBar from "@/components/NavBar";
 import GroupTabs from "@/components/GroupTabs";
@@ -10,10 +11,15 @@ import SearchBar from "@/components/SearchBar";
 import BackToTop from "@/components/BackToTop";
 import MistParticles from "@/components/MistParticles";
 import Footer from "@/components/Footer";
-import { menuGroups, menuData } from "@/data/menu";
+import { menuGroups as menuGroupsTR, menuData as menuDataTR } from "@/data/menu";
+import { menuGroupsEN, menuDataEN } from "@/data/menuEn";
 
 export default function Home() {
-  const [activeGroup, setActiveGroup] = useState(menuGroups[0].id);
+  const { lang, t } = useLanguage();
+  const menuGroups = lang === "tr" ? menuGroupsTR : menuGroupsEN;
+  const menuData = lang === "tr" ? menuDataTR : menuDataEN;
+
+  const [activeGroup, setActiveGroup] = useState(menuGroupsTR[0].id);
   const [activeCategory, setActiveCategory] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -59,7 +65,7 @@ export default function Home() {
         }
         return section;
       });
-  }, [activeGroup, activeCategory, searchQuery, groupCategories]);
+  }, [activeGroup, activeCategory, searchQuery, groupCategories, menuData]);
 
   const handleGroupChange = (groupId) => {
     setActiveGroup(groupId);
@@ -97,7 +103,7 @@ export default function Home() {
       <NavBar />
 
       <div id="menuStart" />
-      <GroupTabs activeGroup={activeGroup} onGroupChange={handleGroupChange} />
+      <GroupTabs activeGroup={activeGroup} onGroupChange={handleGroupChange} groups={menuGroups} />
       <CategoryPills
         categories={groupCategories}
         activeCategory={activeCategory}
@@ -108,6 +114,7 @@ export default function Home() {
         value={searchQuery}
         onChange={setSearchQuery}
         onClear={() => setSearchQuery("")}
+        placeholder={t('searchPlaceholder')}
       />
 
       <main className="menu-container">
@@ -122,11 +129,11 @@ export default function Home() {
         ) : (
           <div className="no-results">
             <div className="no-results-icon">🔍</div>
-            <h3>Sonuç bulunamadı</h3>
+            <h3>{t('noResults')}</h3>
             <p>
               {searchQuery
-                ? `"${searchQuery}" için sonuç bulunamadı. Farklı bir arama deneyin.`
-                : "Bu kategoride ürün bulunmuyor."}
+                ? (lang === 'tr' ? `"${searchQuery}" için sonuç bulunamadı.` : `No results found for "${searchQuery}".`)
+                : t('noResultsDesc')}
             </p>
           </div>
         )}

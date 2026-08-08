@@ -1,12 +1,10 @@
 "use client";
 
-import { menuGroups } from "@/data/menu";
-
-export default function GroupTabs({ activeGroup, onGroupChange }) {
+export default function GroupTabs({ activeGroup, onGroupChange, groups = [] }) {
   return (
     <div className="group-tabs-wrapper">
       <div className="group-tabs">
-        {menuGroups.map((group) => (
+        {groups.map((group) => (
           <button
             key={group.id}
             className={`group-tab${activeGroup === group.id ? " active" : ""}`}
