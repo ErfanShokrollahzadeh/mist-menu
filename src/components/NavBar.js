@@ -10,7 +10,7 @@ export default function NavBar() {
     <nav className="nav-bar" id="navBar">
       <div className="nav-inner">
         <Link href="/" className="nav-brand">
-          <span className="nav-logo">M</span>
+          <img src="/logo.jpg" alt="Mist Cafe Logo" className="nav-logo" style={{ objectFit: 'cover' }} />
           <span className="nav-brand-text">MIST CAFÉ</span>
         </Link>
         <div className="nav-links">

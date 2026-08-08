@@ -3,9 +3,7 @@ export default function Footer() {
     <footer className="footer">
       <div className="footer-content">
         <div className="footer-logo">
-          <div className="footer-logo-circle">
-            <span>M</span>
-          </div>
+          <img src="/logo.jpg" alt="Mist Cafe Logo" className="footer-logo-circle" style={{ objectFit: 'cover', padding: '0' }} />
           <span className="footer-brand">MIST CAFÉ</span>
         </div>
         <p className="footer-text">Lezzetin en güzel hali</p>

@@ -27,9 +27,7 @@ export default function Hero() {
 
       <div className="hero-content">
         <div className="logo-wrapper">
-          <div className="logo-circle">
-            <span className="logo-text">M</span>
-          </div>
+          <img src="/logo.jpg" alt="Mist Cafe Logo" className="logo-circle" style={{ objectFit: 'cover', padding: '0' }} />
         </div>
         <h1 className="hero-title">MIST CAFÉ</h1>
         <p className="hero-subtitle">Lezzet Burada Başlar</p>
