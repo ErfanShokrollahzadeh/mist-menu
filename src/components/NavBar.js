@@ -1,25 +1,35 @@
 "use client";
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useLanguage } from '@/context/LanguageContext';
 
 export default function NavBar() {
   const pathname = usePathname();
-  const { lang, toggleLanguage, t } = useLanguage();
+  const router = useRouter();
+  const { lang, t } = useLanguage();
+
+  const toggleLanguage = () => {
+    const nextLang = lang === 'tr' ? 'en' : 'tr';
+    const newPath = pathname.replace(`/${lang}`, `/${nextLang}`);
+    
+    // Set a cookie so middleware remembers preference
+    document.cookie = `mist-lang=${nextLang}; path=/; max-age=31536000`;
+    router.push(newPath);
+  };
 
   return (
     <nav className="nav-bar" id="navBar">
       <div className="nav-inner">
-        <Link href="/" className="nav-brand">
+        <Link href={`/${lang}`} className="nav-brand">
           <img src="/logo.jpg" alt="Mist Cafe Logo" className="nav-logo" style={{ objectFit: 'cover' }} />
           <span className="nav-brand-text">MIST CAFÉ</span>
         </Link>
         <div className="nav-links">
-          <Link href="/" className={`nav-link ${pathname === '/' ? 'active' : ''}`}>{t('menu')}</Link>
-          <Link href="/wifi" className={`nav-link ${pathname === '/wifi' ? 'active' : ''}`}>{t('wifi')}</Link>
-          <Link href="/announcements" className={`nav-link ${pathname === '/announcements' ? 'active' : ''}`}>{t('announcements')}</Link>
-          <Link href="/feedback" className={`nav-link ${pathname === '/feedback' ? 'active' : ''}`}>{t('feedback')}</Link>
+          <Link href={`/${lang}`} className={`nav-link ${pathname === `/${lang}` ? 'active' : ''}`}>{t('menu')}</Link>
+          <Link href={`/${lang}/wifi`} className={`nav-link ${pathname === `/${lang}/wifi` ? 'active' : ''}`}>{t('wifi')}</Link>
+          <Link href={`/${lang}/announcements`} className={`nav-link ${pathname === `/${lang}/announcements` ? 'active' : ''}`}>{t('announcements')}</Link>
+          <Link href={`/${lang}/feedback`} className={`nav-link ${pathname === `/${lang}/feedback` ? 'active' : ''}`}>{t('feedback')}</Link>
         </div>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
           <button 

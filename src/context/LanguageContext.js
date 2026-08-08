@@ -1,31 +1,15 @@
 "use client";
-import { createContext, useContext, useState, useEffect } from "react";
-import translations from "@/data/translations";
+import { createContext, useContext } from "react";
 
 const LanguageContext = createContext();
 
-export function LanguageProvider({ children }) {
-  const [lang, setLang] = useState("tr");
-
-  useEffect(() => {
-    const saved = localStorage.getItem("mist-lang");
-    if (saved) {
-      setLang(saved);
-    }
-  }, []);
-
-  const toggleLanguage = () => {
-    const nextLang = lang === "tr" ? "en" : "tr";
-    setLang(nextLang);
-    localStorage.setItem("mist-lang", nextLang);
-  };
-
+export function LanguageProvider({ children, lang, dictionary }) {
   const t = (key) => {
-    return translations[lang][key] || key;
+    return dictionary[key] || key;
   };
 
   return (
-    <LanguageContext.Provider value={{ lang, toggleLanguage, t }}>
+    <LanguageContext.Provider value={{ lang, t, dictionary }}>
       {children}
     </LanguageContext.Provider>
   );
