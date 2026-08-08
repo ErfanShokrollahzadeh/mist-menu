@@ -14,7 +14,7 @@ export default function HomeNavBar() {
   const toggleLanguage = () => {
     const nextLang = lang === 'tr' ? 'en' : 'tr';
     const newPath = pathname.replace(`/${lang}`, `/${nextLang}`);
-    
+
     document.cookie = `mist-lang=${nextLang}; path=/; max-age=31536000`;
     router.push(newPath);
   };
@@ -25,11 +25,11 @@ export default function HomeNavBar() {
     <>
       <nav className="home-nav-bar">
         <div className="home-nav-inner">
-          
+
           {/* Left: Hamburger (Blue icon) */}
           <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-            <button 
-              className="home-hamburger-btn" 
+            <button
+              className="home-hamburger-btn"
               onClick={() => setIsMenuOpen(true)}
               aria-label="Open menu"
             >
@@ -66,7 +66,7 @@ export default function HomeNavBar() {
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
           </div>
-          
+
           <div className="side-menu-content">
             <div className="side-menu-links">
               <Link href={`/${lang}`} className="side-nav-link" onClick={closeMenu}>
@@ -109,7 +109,7 @@ export default function HomeNavBar() {
                 <a href="#" aria-label="Facebook">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
                 </a>
-                <a href="#" aria-label="Instagram">
+                <a href="https://www.instagram.com/mistcoffeelounge/" aria-label="Instagram">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
                 </a>
                 <a href="#" aria-label="Twitter">
