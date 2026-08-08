@@ -77,6 +77,41 @@ export default function ContactPage() {
             </form>
           </div>
         </div>
+
+        {/* Map Section */}
+        <div style={{ marginTop: '4rem', marginBottom: '2rem' }}>
+          <h2 style={{ fontSize: '2rem', marginBottom: '1.5rem', textAlign: 'center', color: 'var(--gold-400)' }}>{t('location')}</h2>
+          <div style={{ position: 'relative', width: '100%', height: '400px', borderRadius: 'var(--card-radius)', overflow: 'hidden', border: '1px solid var(--glass-border)' }}>
+            <iframe 
+              src="https://maps.google.com/maps?q=Yeniba%C4%9Flar,%20Y%C4%B1lmaz%20B%C3%BCy%C3%BCker%C5%9Fen%20Blv%20No:63,%20Tepeba%C5%9F%C4%B1%20/%20Eski%C5%9Fehir&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+              width="100%" 
+              height="100%" 
+              style={{ border: 0 }} 
+              allowFullScreen="" 
+              loading="lazy" 
+              referrerPolicy="no-referrer-when-downgrade"
+            ></iframe>
+            {/* Overlay to handle click and redirect */}
+            <a 
+              href="https://maps.google.com/maps?q=Yeniba%C4%9Flar,%20Y%C4%B1lmaz%20B%C3%BCy%C3%BCker%C5%9Fen%20Blv%20No:63,%20Tepeba%C5%9F%C4%B1%20/%20Eski%C5%9Fehir" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                zIndex: 10,
+                cursor: 'pointer',
+                background: 'transparent'
+              }}
+              title="Open in Google Maps"
+            >
+              <span style={{ position: 'absolute', width: '1px', height: '1px', padding: 0, margin: '-1px', overflow: 'hidden', clip: 'rect(0, 0, 0, 0)', whiteSpace: 'nowrap', borderWidth: 0 }}>Open in Google Maps</span>
+            </a>
+          </div>
+        </div>
       </main>
       <Footer />
     </>
