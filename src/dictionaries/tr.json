@@ -41,5 +41,16 @@
   "contact": "İletişim",
   "contactTitle": "İletişim",
   "contactDesc": "Her türlü soru ve rezervasyonlarınız için bizimle iletişime geçin.",
-  "location": "Konumumuz"
+  "location": "Konumumuz",
+  "reservation": "Rezervasyon",
+  "reservationTitle": "Masa Ayırtın",
+  "reservationDesc": "Lütfen aşağıdaki formu doldurarak masanızı ayırtın. En kısa sürede sizinle iletişime geçeceğiz.",
+  "resDate": "Tarih",
+  "resTime": "Saat",
+  "resGuests": "Kişi Sayısı",
+  "resName": "Adınız Soyadınız",
+  "resPhone": "Telefon Numaranız",
+  "resRequests": "Özel İstekleriniz (Opsiyonel)",
+  "resSubmit": "Rezervasyon Yap",
+  "resSuccess": "Rezervasyon talebiniz alındı! Sizinle en kısa sürede iletişime geçeceğiz."
 }
