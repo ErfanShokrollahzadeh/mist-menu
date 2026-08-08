@@ -12,7 +12,7 @@ export default function NavBar() {
   const toggleLanguage = () => {
     const nextLang = lang === 'tr' ? 'en' : 'tr';
     const newPath = pathname.replace(`/${lang}`, `/${nextLang}`);
-    
+
     document.cookie = `mist-lang=${nextLang}; path=/; max-age=31536000`;
     router.push(newPath);
   };
@@ -25,7 +25,7 @@ export default function NavBar() {
       <div className="nav-inner">
         <Link href={`/${lang}`} className="nav-brand">
           <img src="/logo.jpg" alt="Mist Cafe Logo" className="nav-logo" style={{ objectFit: 'cover' }} />
-          <span className="nav-brand-text">MIST CAFÉ</span>
+          <span className="nav-brand-text">MiST CAFÉ</span>
         </Link>
         <div className="nav-links">
           <Link href={`/${lang}/menu`} className={`nav-link ${pathname === `/${lang}/menu` ? 'active' : ''}`}>{t('menu')}</Link>
@@ -34,7 +34,7 @@ export default function NavBar() {
           <Link href={`/${lang}/feedback`} className={`nav-link ${pathname === `/${lang}/feedback` ? 'active' : ''}`}>{t('feedback')}</Link>
         </div>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-          <button 
+          <button
             onClick={toggleLanguage}
             style={{
               background: 'rgba(255,255,255,0.1)',
