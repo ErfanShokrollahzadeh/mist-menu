@@ -8,6 +8,7 @@ const nextConfig = {
       },
     ],
   },
+  allowedDevOrigins: ['192.168.48.251'],
 };
 
 module.exports = nextConfig;
