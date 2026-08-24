@@ -20,6 +20,10 @@ export const metadata: Metadata = {
     "MiST Café & Lounge, Eskişehir — kahvaltı, ana yemekler, tatlılar, kahveler ve nargile. Masanızdan sipariş verin.",
   manifest: "/manifest.webmanifest",
   appleWebApp: { capable: true, statusBarStyle: "black-translucent", title: "MiST Café" },
+  icons: {
+    icon: [{ url: "/icons/favicon-32.png", sizes: "32x32", type: "image/png" }],
+    apple: [{ url: "/icons/apple-touch-icon.png", sizes: "180x180" }],
+  },
 };
 
 export const viewport: Viewport = {

@@ -10,6 +10,7 @@ import { WaiterSheet } from "@/components/actions/WaiterSheet";
 import { BillSheet } from "@/components/actions/BillSheet";
 import { WifiSheet } from "@/components/actions/WifiSheet";
 import { FeedbackSheet } from "@/components/actions/FeedbackSheet";
+import { ServiceWorkerRegistrar } from "@/components/system/ServiceWorkerRegistrar";
 import { useTheme } from "@/components/system/ThemeProvider";
 
 export function AppShell({ children }: { children: ReactNode }) {
@@ -21,6 +22,8 @@ export function AppShell({ children }: { children: ReactNode }) {
       <Suspense fallback={null}>
         <TableSync />
       </Suspense>
+
+      <ServiceWorkerRegistrar />
 
       <TopBar />
       {children}

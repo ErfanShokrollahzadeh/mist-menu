@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Mist.Api/Mist.Api.csproj" />
+    <Project Path="src/Mist.Application/Mist.Application.csproj" />
+    <Project Path="src/Mist.Domain/Mist.Domain.csproj" />
+    <Project Path="src/Mist.Infrastructure/Mist.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Mist.Tests/Mist.Tests.csproj" />
+  </Folder>
+</Solution>
