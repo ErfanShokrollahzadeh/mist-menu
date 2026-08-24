@@ -3,5 +3,14 @@
     "Postgres": "Host=127.0.0.1;Port=5432;Database=mist;Username=mist;Password=mist",
     "Redis": "127.0.0.1:6379"
   },
-  "Cors": { "Origins": ["http://localhost:3000"] }
+  "Cors": {
+    "Origins": [
+      "http://localhost:3000",
+      "http://localhost:3210",
+      "http://localhost:3211",
+      "http://localhost:3212",
+      "http://localhost:3213",
+      "http://localhost:3214"
+    ]
+  }
 }

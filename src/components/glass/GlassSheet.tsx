@@ -31,6 +31,7 @@ export function GlassSheet({
       <Drawer.Portal>
         <Drawer.Overlay className="fixed inset-0 z-50 bg-black/45 backdrop-blur-[2px]" />
         <Drawer.Content
+          aria-describedby={description ? undefined : ""}
           className={cn(
             "glass-legible glass-edge fixed inset-x-0 bottom-0 z-50 mx-auto flex max-h-[92dvh] w-full max-w-lg flex-col",
             "rounded-t-[var(--radius-sheet)] outline-none",
@@ -42,12 +43,10 @@ export function GlassSheet({
           <header className="flex items-start gap-3 px-5 pt-4 pb-3">
             <div className="min-w-0 flex-1">
               <Drawer.Title className="text-lg font-bold tracking-tight">{title}</Drawer.Title>
-              {description ? (
+              {description && (
                 <Drawer.Description className="mt-0.5 text-sm text-[var(--ink-muted)]">
                   {description}
                 </Drawer.Description>
-              ) : (
-                <Drawer.Description className="sr-only">{title}</Drawer.Description>
               )}
             </div>
             <Drawer.Close

@@ -76,6 +76,7 @@ export function BottomHub() {
                       animate={{ scale: 1 }}
                       exit={{ scale: 0 }}
                       transition={spring.snappy}
+                      aria-hidden
                       className="absolute -top-1.5 -right-2 grid min-w-[17px] place-items-center rounded-full bg-[var(--secondary)] px-1 text-[10px] font-bold text-white tabular-nums"
                     >
                       {badge > 9 ? "9+" : badge}
@@ -95,7 +96,13 @@ export function BottomHub() {
           );
 
           return slot.kind === "link" ? (
-            <Link key={slot.id} href={`/${lang}${slot.href}`} className={className} aria-current={active ? "page" : undefined}>
+            <Link
+              key={slot.id}
+              href={`/${lang}${slot.href}`}
+              className={className}
+              aria-label={t(slot.label)}
+              aria-current={active ? "page" : undefined}
+            >
               {inner}
             </Link>
           ) : (
@@ -104,6 +111,11 @@ export function BottomHub() {
               type="button"
               onClick={() => openSheet(slot.sheet)}
               className={className}
+              aria-label={
+                badge !== null
+                  ? `${t(slot.label)} (${badge})`   // count spoken deliberately, not as a stray digit
+                  : t(slot.label)
+              }
               aria-haspopup="dialog"
               aria-expanded={active}
             >
