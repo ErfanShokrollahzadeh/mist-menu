@@ -15,9 +15,18 @@ using Mist.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-/* ── Persistence ─────────────────────────────────────────────────────── */
+/* ── Persistence ─────────────────────────────────────────────────────────
+      No hardcoded fallback: a credential in source is one a deploy can pick
+      up silently. Without a configured connection string the API should fail
+      to start rather than quietly try default credentials against whatever
+      Postgres happens to be reachable.
+      Set ConnectionStrings__Postgres in the environment, or use
+      appsettings.Development.json locally (see the .example alongside it). */
 var postgres = builder.Configuration.GetConnectionString("Postgres")
-    ?? "Host=localhost;Port=5432;Database=mist;Username=postgres;Password=postgres";
+    ?? throw new InvalidOperationException(
+        "ConnectionStrings:Postgres is not configured. Set the "
+        + "ConnectionStrings__Postgres environment variable, or copy "
+        + "appsettings.Development.json.example to appsettings.Development.json.");
 builder.Services.AddDbContext<MistDbContext>(o => o.UseNpgsql(postgres));
 
 /* ── Caching: Redis when configured, in-memory otherwise, so the API runs
