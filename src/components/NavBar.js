@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { useLanguage } from '@/context/LanguageContext';
+import { useLanguage } from '@/lib/i18n/LanguageProvider';
 
 export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { useLanguage } from "@/context/LanguageContext";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 import Hero from "@/components/Hero";
 import NavBar from "@/components/NavBar";
 import GroupTabs from "@/components/GroupTabs";

@@ -2,7 +2,7 @@
 import NavBar from "@/components/NavBar";
 import MistParticles from "@/components/MistParticles";
 import Footer from "@/components/Footer";
-import { useLanguage } from "@/context/LanguageContext";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 export default function WifiPage() {
   const { t } = useLanguage();

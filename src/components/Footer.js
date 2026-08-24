@@ -1,5 +1,5 @@
 "use client";
-import { useLanguage } from "@/context/LanguageContext";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 export default function Footer() {
   const { t } = useLanguage();

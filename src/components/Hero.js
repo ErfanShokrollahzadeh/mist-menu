@@ -1,6 +1,6 @@
 "use client";
 
-import { useLanguage } from '@/context/LanguageContext';
+import { useLanguage } from '@/lib/i18n/LanguageProvider';
 import { useState, useEffect } from 'react';
 
 

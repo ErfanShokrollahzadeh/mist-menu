@@ -4,7 +4,7 @@ import Hero from '@/components/Hero';
 import HomeNavBar from '@/components/HomeNavBar';
 import Footer from '@/components/Footer';
 import BackToTop from '@/components/BackToTop';
-import { useLanguage } from '@/context/LanguageContext';
+import { useLanguage } from '@/lib/i18n/LanguageProvider';
 import Link from 'next/link';
 
 export default function Home() {

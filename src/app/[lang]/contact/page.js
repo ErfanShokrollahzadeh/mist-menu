@@ -2,7 +2,7 @@
 import { useState } from "react";
 import MistParticles from "@/components/MistParticles";
 import Footer from "@/components/Footer";
-import { useLanguage } from "@/context/LanguageContext";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 import HomeNavBar from "@/components/HomeNavBar";
 
 export default function ContactPage() {

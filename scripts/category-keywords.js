@@ -1,3 +1,6 @@
+// Category → English keyword map, harvested from the retired updateMenuWithUniqueUrls.js.
+// Seeds stock-photo selection for categories without house photography.
+
 const categoryMap = {
   "Kahvaltı": "breakfast",
   "Omlet": "omelette",
@@ -31,3 +34,4 @@ const categoryMap = {
   "Mist Özel Kokteyller": "cocktail",
   "Nargileler": "hookah,shisha"
 };
+module.exports = { categoryMap };
