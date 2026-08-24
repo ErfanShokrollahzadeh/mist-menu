@@ -147,8 +147,22 @@
   /* Turkish text runs long; never let it break the layout. */
   h1, h2, h3, h4 {
     text-wrap: balance;
-    letter-spacing: -0.02em;
-    line-height: 1.15;
+    line-height: 1.2;
+  }
+
+  /* Plus Jakarta Sans ships a narrow space (2px at 14px). Tightening letters
+     on top of that runs words together, so negative tracking is reserved for
+     large display text and every size gets the space nudged back out. */
+  body {
+    word-spacing: 0.055em;
+  }
+
+  h1, .text-display {
+    letter-spacing: -0.022em;
+  }
+
+  h2 {
+    letter-spacing: -0.014em;
   }
 
   p {

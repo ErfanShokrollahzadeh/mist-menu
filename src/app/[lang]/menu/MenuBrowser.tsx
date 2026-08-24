@@ -64,7 +64,7 @@ export function MenuBrowser() {
 
   return (
     <>
-      <div className="glass-strong sticky top-16 z-30 -mx-4 space-y-2 px-4 py-3 sm:-mx-6 sm:px-6">
+      <div className="glass-strong sticky top-16 z-30 -mx-4 space-y-2 rounded-none px-4 py-3 sm:-mx-6 sm:px-6 lg:mx-[calc(50%-50vw)] lg:px-[calc(50vw-50%+1.5rem)]">
         <SearchField value={query} onChange={setQuery} />
         <AnimatePresence mode="wait" initial={false}>
           {searching ? (
