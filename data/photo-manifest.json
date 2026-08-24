@@ -200,7 +200,7 @@
       "slug": "wrap-durum-salad",
       "file": "/menu-images/wrap-durum-salad.jpg",
       "role": "category",
-      "categorySlug": "wrap-quesedilla",
+      "categorySlug": "wrap-ve-quesedilla",
       "alt": "Wrap cut open with salad",
       "legacy": "imgi_5_583042970_18048861962673479_8744862569243701013_n.jpg"
     },
@@ -297,7 +297,7 @@
       "slug": "pasta-alfredo",
       "file": "/menu-images/pasta-alfredo.jpg",
       "role": "item",
-      "categorySlug": "makarna-noodle",
+      "categorySlug": "makarna-ve-noodes",
       "alt": "Creamy fettuccine alfredo",
       "legacy": "imgi_26_705320591_18362729002229817_5509315419641318361_n.jpg"
     }

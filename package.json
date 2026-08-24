@@ -5,7 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "verify:menu": "node scripts/verify-menu.mjs",
+    "data:build": "node scripts/build-menu-source.mjs"
   },
   "dependencies": {
     "@microsoft/signalr": "^10.0.11",
