@@ -1,50 +1,74 @@
-# Mist Café - Modern Menu Redesign ☕
+# MiST Café & Lounge — Digital Menu ☕
 
-A stunning, premium digital menu for Mist Café, built with Next.js and React. This project redesigns the traditional café menu into a modern, interactive web application featuring an elegant Azure Blue, White, and Light Brown color palette.
+A mobile-first digital menu and table-ordering experience for MiST Café & Lounge, Eskişehir.
+Built as an Apple-inspired **"Liquid Glass"** progressive web app, backed by an ASP.NET Core
+service with live order and service-call events.
 
-## ✨ Features
+## Status
 
-*   **Modern Premium Design:** A beautiful UI built with Glassmorphism effects and smooth gradients.
-*   **Animated Interactions:** Floating mist particles, IntersectionObserver-powered scroll reveals, and micro-interactions on hover.
-*   **Comprehensive Menu Data:** Over 200 items categorized across 31 groups (Breakfast, Mains, Desserts, Coffees, Hookahs, and more).
-*   **Smart Navigation:** Horizontal scrolling group tabs and category pills for effortless browsing.
-*   **Real-time Search:** Instantly filter menu items by name or description.
-*   **Fully Responsive:** Designed to look perfect on both mobile devices and desktop screens.
+Pass 1 (in progress): design system, TypeScript migration, unified menu data, the customer
+app, and the backend it talks to. Admin KDS, POS analytics, the menu CMS and the QR manager
+land in pass 2 — the entities, hubs and API surface are already shaped for them.
 
-## 🚀 Tech Stack
+## Tech stack
 
-*   **Framework:** [Next.js 14](https://nextjs.org/)
-*   **Library:** [React 18](https://reactjs.org/)
-*   **Styling:** Pure CSS (Custom properties, Flexbox/Grid, CSS Animations)
-*   **Typography:** Google Fonts (Playfair Display for headings, Inter for body text)
+**Frontend** — Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS v4 · Motion ·
+Radix UI primitives · Lucide icons · Zustand · Fuse.js
 
-## 📦 Getting Started
+**Backend** — ASP.NET Core 10 (Clean Architecture + CQRS) · Entity Framework Core · PostgreSQL ·
+Redis · SignalR
 
-First, clone the repository and install the dependencies:
+## The menu
+
+31 categories across 6 groups — breakfast, mains, desserts, hot drinks, cold drinks and hookah —
+totalling 251 items, each with Turkish and English name and description. The canonical dataset
+lives in `data/menu.source.json` and is consumed by **both** the frontend and the database
+seeder, so mock data and production data cannot drift apart.
+
+## Getting started
 
 ```bash
-# Install dependencies
 npm install
-
-# Run the development server
-npm run dev
+npm run dev            # http://localhost:3000 — redirects to /tr
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The frontend runs standalone with no backend: with `NEXT_PUBLIC_API_URL` unset it reads the
+static menu and simulates order state locally. Point it at a running API to go live:
 
-## 📂 Project Structure
+```bash
+NEXT_PUBLIC_API_URL=http://localhost:5080 npm run dev
+```
 
-*   `src/app/`: Core Next.js routing, layouts, and global styles.
-*   `src/components/`: Reusable React components (`Hero`, `NavBar`, `MenuCard`, etc.).
-*   `src/data/`: Static JSON data (`menu.js`) containing the complete café menu.
+### Backend
 
-## 🎨 Theme Details
+```bash
+docker compose up -d                                   # postgres + redis
+dotnet ef database update -p backend/src/Mist.Infrastructure -s backend/src/Mist.Api
+dotnet run --project backend/src/Mist.Api -- seed
+dotnet run --project backend/src/Mist.Api              # http://localhost:5080
+```
 
-The design system uses a carefully curated color palette to evoke a premium café atmosphere:
-*   **Azure Blue** (`#3b82f6` to `#1e3a8a`): Used for primary accents, gradients, and highlights.
-*   **Light Brown** (`#c09e76` to `#6d4c35`): Warm tones for hover states and secondary elements, reflecting a coffee theme.
-*   **Off-White & Neutrals**: Clean background colors to make the content and images pop.
+## Project structure
 
-## 📄 License
+```
+src/app/[lang]/       Localized routes (tr | en)
+src/components/       glass · layout · menu · tray · actions · system
+src/lib/              api adapters · i18n · search · formatting
+src/stores/           Zustand: cart, table, ui
+data/                 menu.source.json · photo-manifest.json
+scripts/              One-shot data codemods, retained for auditability
+backend/src/          Mist.Domain · Mist.Application · Mist.Infrastructure · Mist.Api
+```
 
-This project is open-source and available under the [MIT License](LICENSE).
+## Localization
+
+Turkish is the default locale; `/en` serves English. Both the UI strings and the full menu are
+translated. Note that Turkish casing is handled explicitly — `"İ".toLowerCase()` produces
+`i` + U+0307 rather than `i`, which silently breaks naive search. See `src/lib/i18n/fold.ts`.
+
+## Photography
+
+Item and category imagery is MiST's own photography, catalogued in `data/photo-manifest.json`;
+categories without a house photo fall back to licensed stock. Allergen and calorie information
+is **not** present in the source data and is never fabricated — badges render only where real
+values exist.

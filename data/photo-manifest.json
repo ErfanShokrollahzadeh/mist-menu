@@ -1,0 +1,305 @@
+{
+  "note": "Visual classification of MiST's own photography. role=item|category|hero|announcement|brand|ambient",
+  "photos": [
+    {
+      "slug": "ambient-bartender-shaker",
+      "file": "/menu-images/ambient-bartender-shaker.jpg",
+      "role": "ambient",
+      "categorySlug": null,
+      "alt": "Bartender pouring into a shaker",
+      "legacy": "imgi_34_681279563_1834997021220234_6113681144050976675_n.jpg"
+    },
+    {
+      "slug": "ambient-dessert-hands",
+      "file": "/menu-images/ambient-dessert-hands.jpg",
+      "role": "ambient",
+      "categorySlug": null,
+      "alt": "Dark, moody dessert being served",
+      "legacy": "imgi_4_556420869_1385148483225286_6690219305764869432_n.jpg"
+    },
+    {
+      "slug": "ambient-flames",
+      "file": "/menu-images/ambient-flames.jpg",
+      "role": "ambient",
+      "categorySlug": null,
+      "alt": "Open flames over the grill",
+      "legacy": "imgi_38_670887014_1612607684200479_9181210366826631820_n.jpg"
+    },
+    {
+      "slug": "event-coffee-festival",
+      "file": "/menu-images/event-coffee-festival.jpg",
+      "role": "announcement",
+      "categorySlug": null,
+      "alt": "Eskişehir coffee festival stand",
+      "legacy": "imgi_22_717153954_18364605373229817_8110280352710666559_n.jpg"
+    },
+    {
+      "slug": "promo-coffee-festival",
+      "file": "/menu-images/promo-coffee-festival.jpg",
+      "role": "announcement",
+      "categorySlug": null,
+      "alt": "Coffee festival 5-6-7 June promo",
+      "legacy": "imgi_23_711828346_1022516670347990_5459211560245093601_n.jpg"
+    },
+    {
+      "slug": "promo-filter-coffee-dessert",
+      "file": "/menu-images/promo-filter-coffee-dessert.jpg",
+      "role": "announcement",
+      "categorySlug": null,
+      "alt": "Free filter coffee with dessert",
+      "legacy": "imgi_27_702894866_18362306443229817_1755391985885021174_n.jpg"
+    },
+    {
+      "slug": "promo-kurban-bayram",
+      "file": "/menu-images/promo-kurban-bayram.jpg",
+      "role": "announcement",
+      "categorySlug": null,
+      "alt": "Kurban Bayramı hours notice",
+      "legacy": "imgi_25_708254974_18363059266229817_5956375720006835064_n.jpg"
+    },
+    {
+      "slug": "brand-logo",
+      "file": "/menu-images/brand-logo.jpg",
+      "role": "brand",
+      "categorySlug": null,
+      "alt": "MiST Coffee & Lounge gold wordmark",
+      "legacy": "imgi_2_517103144_18319294969229817_4187231012768686035_n.jpg",
+      "duplicateOf": "public/logo.jpg"
+    },
+    {
+      "slug": "ambient-grill-smoke",
+      "file": "/menu-images/ambient-grill-smoke.jpg",
+      "role": "category",
+      "categorySlug": "kirmizi-etler",
+      "alt": "Grill flames and smoke",
+      "legacy": "imgi_14_748330612_3191227491077127_7808699536667345288_n.jpg"
+    },
+    {
+      "slug": "breakfast-spread-collage",
+      "file": "/menu-images/breakfast-spread-collage.jpg",
+      "role": "category",
+      "categorySlug": "kahvalti",
+      "alt": "Serpme breakfast spread collage",
+      "legacy": "imgi_36_670453286_812736875221819_2374280528925764148_n.jpg"
+    },
+    {
+      "slug": "burger-fries-plate",
+      "file": "/menu-images/burger-fries-plate.jpg",
+      "role": "category",
+      "categorySlug": "burgerler",
+      "alt": "Burger with fries and dips",
+      "legacy": "imgi_24_709446931_18363815014229817_631111710679786121_n.jpg",
+      "duplicateOf": "public/slider3.jpg"
+    },
+    {
+      "slug": "cocktail-blue-lemon",
+      "file": "/menu-images/cocktail-blue-lemon.jpg",
+      "role": "category",
+      "categorySlug": "mist-ozel-kokteyller",
+      "alt": "Blue lemon mint cocktail",
+      "legacy": "imgi_12_751151781_18371705008229817_6221498210049346758_n.jpg"
+    },
+    {
+      "slug": "cocktail-rainbow",
+      "file": "/menu-images/cocktail-rainbow.jpg",
+      "role": "category",
+      "categorySlug": "redbull-kokteylleri",
+      "alt": "Layered rainbow cocktail",
+      "legacy": "imgi_17_728912154_18368254843229817_783053980245935962_n.jpg"
+    },
+    {
+      "slug": "coffee-lavazza-machine",
+      "file": "/menu-images/coffee-lavazza-machine.jpg",
+      "role": "category",
+      "categorySlug": "espresso-bazli-kahveler",
+      "alt": "Lavazza espresso machine",
+      "legacy": "imgi_9_758328482_2041344973143187_5331557273218919048_n.jpg"
+    },
+    {
+      "slug": "drink-pineapple-bowl",
+      "file": "/menu-images/drink-pineapple-bowl.jpg",
+      "role": "category",
+      "categorySlug": "nargileler",
+      "alt": "Hollowed pineapple serve",
+      "legacy": "imgi_18_728922250_18367890565229817_7310239803464313966_n.jpg"
+    },
+    {
+      "slug": "eggs-fried-pan",
+      "file": "/menu-images/eggs-fried-pan.jpg",
+      "role": "category",
+      "categorySlug": "omlet",
+      "alt": "Two fried eggs in a pan",
+      "legacy": "imgi_32_660994359_18359820442229817_6321895700679399297_n.jpg"
+    },
+    {
+      "slug": "fries-loaded",
+      "file": "/menu-images/fries-loaded.jpg",
+      "role": "category",
+      "categorySlug": "aperatifler",
+      "alt": "Loaded fries with sauce",
+      "legacy": "imgi_35_671011944_18358211569229817_2638503536850645174_n.jpg"
+    },
+    {
+      "slug": "frozen-pink-cup",
+      "file": "/menu-images/frozen-pink-cup.jpg",
+      "role": "category",
+      "categorySlug": "frozen",
+      "alt": "Pink frozen drink in a MiST cup",
+      "legacy": "imgi_21_719609578_4586486861579452_1099962148550779374_n.jpg"
+    },
+    {
+      "slug": "lifestyle-plate-juice",
+      "file": "/menu-images/lifestyle-plate-juice.jpg",
+      "role": "category",
+      "categorySlug": "ev-yapimi-sikmalar",
+      "alt": "Plated meal with fresh orange juice",
+      "legacy": "imgi_6_564140494_18045592718388924_3117311537468270999_n.jpg"
+    },
+    {
+      "slug": "menemen-copper-pan",
+      "file": "/menu-images/menemen-copper-pan.jpg",
+      "role": "category",
+      "categorySlug": "menemen",
+      "alt": "Menemen in a copper pan",
+      "legacy": "imgi_19_728196106_18367386571229817_7590086383124697811_n.jpg",
+      "duplicateOf": "public/slider2.jpg"
+    },
+    {
+      "slug": "mixed-grill-platter",
+      "file": "/menu-images/mixed-grill-platter.jpg",
+      "role": "category",
+      "categorySlug": "kirmizi-etler",
+      "alt": "Mixed grill with fries and salad",
+      "legacy": "imgi_30_672476345_2077316793203151_6831042150286048677_n.jpg"
+    },
+    {
+      "slug": "pide-cheddar-pan",
+      "file": "/menu-images/pide-cheddar-pan.jpg",
+      "role": "category",
+      "categorySlug": "gozleme",
+      "alt": "Cheddar pide in a black pan",
+      "legacy": "imgi_33_683269861_18358972120229817_4634565723502342953_n.jpg"
+    },
+    {
+      "slug": "pizza-pepperoni",
+      "file": "/menu-images/pizza-pepperoni.jpg",
+      "role": "category",
+      "categorySlug": "pizzalar",
+      "alt": "Pepperoni pizza whole",
+      "legacy": "imgi_31_688069960_2138618560310996_3000091392293891656_n.jpg"
+    },
+    {
+      "slug": "toast-bazlama-grilled",
+      "file": "/menu-images/toast-bazlama-grilled.jpg",
+      "role": "category",
+      "categorySlug": "tost",
+      "alt": "Grilled bazlama toast",
+      "legacy": "imgi_29_686924906_2754136264958617_528843537241889242_n.jpg"
+    },
+    {
+      "slug": "wrap-durum-salad",
+      "file": "/menu-images/wrap-durum-salad.jpg",
+      "role": "category",
+      "categorySlug": "wrap-quesedilla",
+      "alt": "Wrap cut open with salad",
+      "legacy": "imgi_5_583042970_18048861962673479_8744862569243701013_n.jpg"
+    },
+    {
+      "slug": "breakfast-table-full",
+      "file": "/menu-images/breakfast-table-full.jpg",
+      "role": "hero",
+      "categorySlug": "kahvalti",
+      "alt": "Full Turkish breakfast table",
+      "legacy": "imgi_40_660765955_1549983640469874_7613927136934520347_n.jpg"
+    },
+    {
+      "slug": "pizza-slice-cheesepull",
+      "file": "/menu-images/pizza-slice-cheesepull.jpg",
+      "role": "hero",
+      "categorySlug": "pizzalar",
+      "alt": "Pizza slice lifted, cheese pull",
+      "legacy": "imgi_39_662306635_18356531842229817_2424878961933542390_n.jpg"
+    },
+    {
+      "slug": "storefront",
+      "file": "/menu-images/storefront.jpg",
+      "role": "hero",
+      "categorySlug": null,
+      "alt": "MiST Coffee & Lounge storefront",
+      "legacy": "imgi_11_757602838_1010233975232763_1976276611376100978_n.jpg"
+    },
+    {
+      "slug": "chicken-cheddar-fries",
+      "file": "/menu-images/chicken-cheddar-fries.jpg",
+      "role": "item",
+      "categorySlug": "beyaz-etler",
+      "alt": "Cheddar-topped chicken with fries",
+      "legacy": "imgi_7_765247790_1366364752140973_3236051688785821269_n.jpg"
+    },
+    {
+      "slug": "chicken-cheddar-penne",
+      "file": "/menu-images/chicken-cheddar-penne.jpg",
+      "role": "item",
+      "categorySlug": "beyaz-etler",
+      "alt": "Cheddar chicken with penne alfredo",
+      "legacy": "imgi_13_749174255_18371219974229817_7887379215192947562_n.jpg",
+      "duplicateOf": "public/slider1.jpg"
+    },
+    {
+      "slug": "chicken-fajita-pan",
+      "file": "/menu-images/chicken-fajita-pan.jpg",
+      "role": "item",
+      "categorySlug": "beyaz-etler",
+      "alt": "Chicken fajita strips with peppers",
+      "legacy": "imgi_10_759595842_1020744080784645_2518623589768750854_n.jpg"
+    },
+    {
+      "slug": "chicken-potato-skillet",
+      "file": "/menu-images/chicken-potato-skillet.jpg",
+      "role": "item",
+      "categorySlug": "beyaz-etler",
+      "alt": "Chicken and potato skillet",
+      "legacy": "imgi_37_671119086_18357154447229817_4399509057581738777_n.jpg"
+    },
+    {
+      "slug": "cocktail-berry-red",
+      "file": "/menu-images/cocktail-berry-red.jpg",
+      "role": "item",
+      "categorySlug": "mist-ozel-kokteyller",
+      "alt": "Red berry cocktail with citrus",
+      "legacy": "imgi_20_719463039_18365454472229817_2998936929698428673_n.jpg"
+    },
+    {
+      "slug": "cocktail-blue-lagoon",
+      "file": "/menu-images/cocktail-blue-lagoon.jpg",
+      "role": "item",
+      "categorySlug": "mist-ozel-kokteyller",
+      "alt": "Blue lagoon cocktail",
+      "legacy": "imgi_28_692474866_18362090503229817_4729040387828518060_n.jpg"
+    },
+    {
+      "slug": "milkshake-oreo",
+      "file": "/menu-images/milkshake-oreo.jpg",
+      "role": "item",
+      "categorySlug": "milkshake",
+      "alt": "Oreo milkshake held in hands",
+      "legacy": "imgi_16_734313807_18368884216229817_6079939781061335064_n.jpg"
+    },
+    {
+      "slug": "milkshake-strawberry",
+      "file": "/menu-images/milkshake-strawberry.jpg",
+      "role": "item",
+      "categorySlug": "milkshake",
+      "alt": "Strawberry milkshake with cream",
+      "legacy": "imgi_15_730069488_18369369880229817_8472885753996519442_n.jpg"
+    },
+    {
+      "slug": "pasta-alfredo",
+      "file": "/menu-images/pasta-alfredo.jpg",
+      "role": "item",
+      "categorySlug": "makarna-noodle",
+      "alt": "Creamy fettuccine alfredo",
+      "legacy": "imgi_26_705320591_18362729002229817_5509315419641318361_n.jpg"
+    }
+  ]
+}
