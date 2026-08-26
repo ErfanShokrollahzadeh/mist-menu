@@ -1,9 +1,15 @@
 #!/usr/bin/env node
 /** Asserts the API's aggregation against totals computed independently by the seeder. */
+import { execFileSync } from "node:child_process";
 import { readFileSync } from "node:fs";
+import { staffToken } from "./_session.mjs";
 
 const API = process.env.API_URL ?? "http://localhost:5080";
-const PASSWORD = readFileSync("/tmp/admin-pw", "utf8").trim();
+
+// Seed our own fixture rather than trusting what a previous suite left behind:
+// the assertion is that the API's aggregates equal totals computed here
+// independently, which only holds if these are the only orders in the window.
+execFileSync("node", ["scripts/e2e/seed-history.mjs"], { stdio: "pipe" });
 const expected = JSON.parse(readFileSync("/tmp/expected-analytics.json", "utf8"));
 
 let failures = 0;
@@ -12,10 +18,7 @@ const check = (ok, label, detail = "") => {
   if (!ok) failures++;
 };
 
-const login = await (await fetch(`${API}/api/v1/auth/login`, {
-  method: "POST", headers: { "content-type": "application/json" },
-  body: JSON.stringify({ email: "admin@mistcafe.local", password: PASSWORD }),
-})).json();
+const login = await staffToken();
 const auth = { authorization: `Bearer ${login.accessToken}` };
 
 const today = new Date();

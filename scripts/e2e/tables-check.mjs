@@ -1,20 +1,16 @@
 #!/usr/bin/env node
 /** Verifies the QR token migration: tokens resolve, forgeries do not, tokens
  *  are admin-only, and rotation invalidates what is printed. */
-import { readFileSync } from "node:fs";
+import { staffToken } from "./_session.mjs";
 
 const API = process.env.API_URL ?? "http://localhost:5080";
-const PASSWORD = readFileSync("/tmp/admin-pw", "utf8").trim();
 let failures = 0;
 const check = (ok, label, detail = "") => {
   console.log(`  ${ok ? "✓" : "✗"} ${label}${detail ? ` — ${detail}` : ""}`);
   if (!ok) failures++;
 };
 
-const login = await (await fetch(`${API}/api/v1/auth/login`, {
-  method: "POST", headers: { "content-type": "application/json" },
-  body: JSON.stringify({ email: "admin@mistcafe.local", password: PASSWORD }),
-})).json();
+const login = await staffToken();
 const auth = { authorization: `Bearer ${login.accessToken}`, "content-type": "application/json" };
 
 console.log("\nTOKENS ARE A CREDENTIAL");

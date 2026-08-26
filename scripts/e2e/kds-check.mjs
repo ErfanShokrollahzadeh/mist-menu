@@ -5,10 +5,9 @@
  * both the kitchen board and the customer's status stepper.
  */
 import * as signalR from "@microsoft/signalr";
-import { readFileSync } from "node:fs";
+import { staffToken } from "./_session.mjs";
 
 const API = process.env.API_URL ?? "http://localhost:5080";
-const PASSWORD = readFileSync("/tmp/admin-pw", "utf8").trim();
 const TABLE = "5";
 
 let failures = 0;
@@ -17,10 +16,7 @@ const check = (ok, label, detail = "") => {
   if (!ok) failures++;
 };
 
-const login = await (await fetch(`${API}/api/v1/auth/login`, {
-  method: "POST", headers: { "content-type": "application/json" },
-  body: JSON.stringify({ email: "admin@mistcafe.local", password: PASSWORD }),
-})).json();
+const login = await staffToken();
 const auth = { authorization: `Bearer ${login.accessToken}` };
 
 const move = (id, status, headers = auth) =>
