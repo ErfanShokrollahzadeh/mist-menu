@@ -20,5 +20,22 @@ export interface AdminApi {
   logout(refreshToken: string): Promise<void>;
   kitchenBoard(): Promise<Order[]>;
   analytics(from: string, to: string): Promise<AnalyticsDto>;
+  setAvailability(categorySlug: string, slug: string, isAvailable: boolean): Promise<void>;
+  upsertItem(input: UpsertItemInput): Promise<void>;
+  deleteItem(categorySlug: string, slug: string): Promise<void>;
+  reorder(categorySlug: string, slugs: string[]): Promise<void>;
   changeStatus(orderId: string, status: OrderStatus): Promise<Order>;
+}
+
+export interface UpsertItemInput {
+  slug: string | null;          // null creates
+  categorySlug: string;
+  name: { tr: string; en: string };
+  description: { tr: string; en: string };
+  priceMinor: number;
+  imageUrl: string | null;
+  tags: string[];
+  allergens: string[];
+  calories: number | null;
+  isAvailable: boolean;
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import type { Order, OrderStatus } from "@/lib/api/contracts";
-import type { AdminApi, AuthTokens } from "./contracts";
+import type { AdminApi, AuthTokens, UpsertItemInput } from "./contracts";
 import type { AnalyticsDto } from "./analytics";
 import { useAuth } from "@/stores/auth";
 
@@ -75,6 +75,22 @@ export const adminApi: AdminApi = {
 
   analytics: (from: string, to: string) =>
     authed<AnalyticsDto>(`/api/v1/admin/analytics?from=${from}&to=${to}`),
+
+  setAvailability: (categorySlug: string, slug: string, isAvailable: boolean) =>
+    authed<void>(`/api/v1/admin/menu/${categorySlug}/${slug}/availability`, {
+      method: "PATCH", body: JSON.stringify({ isAvailable }),
+    }),
+
+  upsertItem: (input: UpsertItemInput) =>
+    authed<void>("/api/v1/admin/menu/items", { method: "PUT", body: JSON.stringify(input) }),
+
+  deleteItem: (categorySlug: string, slug: string) =>
+    authed<void>(`/api/v1/admin/menu/${categorySlug}/${slug}`, { method: "DELETE" }),
+
+  reorder: (categorySlug: string, slugs: string[]) =>
+    authed<void>(`/api/v1/admin/menu/${categorySlug}/reorder`, {
+      method: "POST", body: JSON.stringify({ slugs }),
+    }),
 
   changeStatus: (orderId: string, status: OrderStatus) =>
     authed<Order>(`/api/v1/admin/orders/${orderId}/status`, {

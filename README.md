@@ -21,9 +21,15 @@ Redis · SignalR
 ## The menu
 
 31 categories across 6 groups — breakfast, mains, desserts, hot drinks, cold drinks and hookah —
-totalling 251 items, each with Turkish and English name and description. The canonical dataset
-lives in `data/menu.source.json` and is consumed by **both** the frontend and the database
-seeder, so mock data and production data cannot drift apart.
+totalling 251 items, each with Turkish and English name and description.
+
+`data/menu.source.json` **seeds** the database; it is not the live source once the API is
+running. The admin CMS writes to Postgres, and `GET /api/v1/menu` serves from there. Editing
+the JSON after seeding changes only what a fresh database would start from — two writable
+sources of truth is exactly how the Turkish and English menus drifted apart in the first place.
+
+Without a backend the frontend falls back to reading that JSON directly, which is what keeps
+the public site working on Vercel.
 
 ## Getting started
 

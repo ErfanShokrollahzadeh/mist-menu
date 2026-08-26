@@ -1,12 +1,15 @@
 using System.Security.Claims;
 using Mist.Application.Abstractions;
 using Mist.Application.Analytics;
+using Mist.Application.MenuAdmin;
 using Mist.Application.Orders;
 using Mist.Domain.Enums;
 
 namespace Mist.Api.Endpoints;
 
 public sealed record ChangeStatusRequest(string Status);
+public sealed record SetAvailabilityRequest(bool IsAvailable);
+public sealed record ReorderRequest(IReadOnlyList<string> Slugs);
 
 public static class AdminEndpoints
 {
@@ -50,6 +53,39 @@ public static class AdminEndpoints
                 return Results.Ok(await dispatcher.Send(new GetAnalyticsQuery(start, end), ct));
             })
              .WithName("GetAnalytics")
+             .RequireAuthorization("admin");
+
+        /* ── Menu CMS ────────────────────────────────────────────────────
+           Availability is a shift-floor decision, so staff may toggle it.
+           Everything that changes prices or the menu's shape is admin-only. */
+
+        admin.MapPatch("/menu/{categorySlug}/{slug}/availability", async (
+                string categorySlug, string slug, SetAvailabilityRequest body,
+                IDispatcher dispatcher, CancellationToken ct) =>
+                Results.Ok(await dispatcher.Send(
+                    new SetItemAvailabilityCommand(categorySlug, slug, body.IsAvailable), ct)))
+             .WithName("SetItemAvailability");
+
+        admin.MapPut("/menu/items", async (
+                UpsertItemInput body, IDispatcher dispatcher, CancellationToken ct) =>
+                Results.Ok(await dispatcher.Send(new UpsertItemCommand(body), ct)))
+             .WithName("UpsertMenuItem")
+             .RequireAuthorization("admin");
+
+        admin.MapDelete("/menu/{categorySlug}/{slug}", async (
+                string categorySlug, string slug, IDispatcher dispatcher, CancellationToken ct) =>
+                await dispatcher.Send(new DeleteItemCommand(categorySlug, slug), ct)
+                    ? Results.NoContent()
+                    : Results.NotFound())
+             .WithName("DeleteMenuItem")
+             .RequireAuthorization("admin");
+
+        admin.MapPost("/menu/{categorySlug}/reorder", async (
+                string categorySlug, ReorderRequest body,
+                IDispatcher dispatcher, CancellationToken ct) =>
+                Results.Ok(new { updated = await dispatcher.Send(
+                    new ReorderItemsCommand(categorySlug, body.Slugs), ct) }))
+             .WithName("ReorderMenuItems")
              .RequireAuthorization("admin");
     }
 }
