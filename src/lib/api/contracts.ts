@@ -21,6 +21,25 @@ export interface PlaceOrderInput {
   clientRequestId: string;
 }
 
+/**
+ * A line as the API returns it — not the shape that was sent.
+ *
+ * The request carries `selections` (group slug -> option slugs); the response
+ * carries `selectedOptions`, already resolved to localized labels, plus the
+ * unit price actually charged. Reusing PlaceOrderLine here described a payload
+ * the server never sends.
+ */
+export interface OrderLine {
+  categorySlug: string;
+  itemSlug: string;
+  name: Record<Locale, string>;
+  quantity: number;
+  unitPriceMinor: number;
+  lineTotalMinor: number;
+  selectedOptions: Record<Locale, string>[];
+  note?: string | null;
+}
+
 export interface Order {
   id: string;
   orderNumber: string;
@@ -28,7 +47,7 @@ export interface Order {
   status: OrderStatus;
   totalMinor: number;
   placedAt: string;
-  lines: (PlaceOrderLine & { name: Record<Locale, string>; lineTotalMinor: number })[];
+  lines: OrderLine[];
   /** True when this came from the mock adapter and never reached a kitchen. */
   simulated: boolean;
 }

@@ -4,8 +4,6 @@ import "../globals.css";
 import { LanguageProvider } from "@/lib/i18n/LanguageProvider";
 import { getDictionary } from "@/lib/i18n";
 import { ThemeProvider, THEME_BOOTSTRAP } from "@/components/system/ThemeProvider";
-import { AmbientBackdrop } from "@/components/layout/AmbientBackdrop";
-import { AppShell } from "@/components/layout/AppShell";
 import { LOCALES, type Locale } from "@/proxy";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -60,8 +58,7 @@ export default async function LocaleLayout({
       <body className="min-h-dvh antialiased">
         <ThemeProvider>
           <LanguageProvider lang={locale} dictionary={dictionary}>
-            <AmbientBackdrop />
-            <AppShell>{children}</AppShell>
+            {children}
           </LanguageProvider>
         </ThemeProvider>
       </body>

@@ -60,22 +60,32 @@ export const mockApi: MistApi = {
     const existing = orders.find((o) => o.orderNumber === input.clientRequestId.slice(0, 8));
     if (existing) return existing;
 
+    // Must produce the same shape the API does, or mock and live diverge —
+    // the exact drift the single canonical dataset exists to prevent.
     const lines = input.lines.map((l) => {
       const item = getItem(l.categorySlug, l.itemSlug);
-      const deltas = item
+      const chosen = item
         ? Object.entries(l.selections).flatMap(([g, opts]) =>
-            opts.map(
-              (o) =>
-                item.modifierGroups
-                  .find((mg) => mg.slug === g)
-                  ?.options.find((mo) => mo.slug === o)?.priceDeltaMinor ?? 0,
-            ),
+            opts.flatMap((o) => {
+              const option = item.modifierGroups
+                .find((mg) => mg.slug === g)
+                ?.options.find((mo) => mo.slug === o);
+              return option ? [option] : [];
+            }),
           )
         : [];
+      const deltas = chosen.map((o) => o.priceDeltaMinor);
+      const unitPriceMinor = (item?.priceMinor ?? 0) + deltas.reduce((a, b) => a + b, 0);
+
       return {
-        ...l,
+        categorySlug: l.categorySlug,
+        itemSlug: l.itemSlug,
         name: item?.name ?? { tr: l.itemSlug, en: l.itemSlug },
+        quantity: l.quantity,
+        unitPriceMinor,
         lineTotalMinor: item ? lineTotalMinor(item.priceMinor, deltas, l.quantity) : 0,
+        selectedOptions: chosen.map((o) => o.name),
+        note: l.note,
       };
     });
 
