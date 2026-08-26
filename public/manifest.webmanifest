@@ -1,0 +1,53 @@
+{
+  "name": "MiST Café & Lounge",
+  "short_name": "MiST Café",
+  "description": "MiST Café & Lounge — menü, masadan sipariş, garson çağırma ve Wi-Fi.",
+  "start_url": "/tr",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#080c15",
+  "theme_color": "#080c15",
+  "categories": [
+    "food",
+    "lifestyle"
+  ],
+  "lang": "tr",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Menü",
+      "url": "/tr/menu"
+    },
+    {
+      "name": "Menu (EN)",
+      "url": "/en/menu"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "ConnectionStrings": {
+    "Postgres": "Host=127.0.0.1;Port=5432;Database=mist;Username=mist;Password=mist",
+    "Redis": "127.0.0.1:6379"
+  },
+  "Cors": {
+    "Origins": [
+      "http://localhost:3000",
+      "http://localhost:3220"
+    ]
+  },
+  "Jwt": {
+    "Issuer": "mist-api",
+    "Audience": "mist-admin",
+    "SigningKey": "<generate: openssl rand -base64 48>",
+    "AccessTokenMinutes": 30,
+    "RefreshTokenDays": 14
+  },
+  "Seed": {
+    "AdminEmail": "you@example.com",
+    "AdminPassword": "<at least 12 characters>",
+    "AdminName": "Y\u00f6netici"
+  }
+}

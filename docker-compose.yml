@@ -1,0 +1,31 @@
+# Local dependencies for the API. The frontend needs none of this: with
+# NEXT_PUBLIC_API_URL unset it runs on the static menu alone.
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: mist
+      POSTGRES_PASSWORD: mist
+      POSTGRES_DB: mist
+    ports: ["5432:5432"]
+    volumes: ["mist-pgdata:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mist -d mist"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--save", "60", "1", "--loglevel", "warning"]
+    ports: ["6379:6379"]
+    volumes: ["mist-redisdata:/data"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  mist-pgdata:
+  mist-redisdata:
