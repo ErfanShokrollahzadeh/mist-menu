@@ -2,6 +2,7 @@ using System.Security.Claims;
 using Mist.Application.Abstractions;
 using Mist.Application.Analytics;
 using Mist.Application.MenuAdmin;
+using Mist.Application.Tables;
 using Mist.Application.Orders;
 using Mist.Domain.Enums;
 
@@ -86,6 +87,27 @@ public static class AdminEndpoints
                 Results.Ok(new { updated = await dispatcher.Send(
                     new ReorderItemsCommand(categorySlug, body.Slugs), ct) }))
              .WithName("ReorderMenuItems")
+             .RequireAuthorization("admin");
+
+        /* ── Tables & QR ─────────────────────────────────────────────────
+           The listing includes QR tokens, so it is admin-only: a token is
+           the credential that binds an order to a table. */
+
+        admin.MapGet("/tables", async (IDispatcher dispatcher, CancellationToken ct) =>
+                Results.Ok(await dispatcher.Send(new ListTablesQuery(), ct)))
+             .WithName("ListTables")
+             .RequireAuthorization("admin");
+
+        admin.MapPut("/tables", async (
+                UpsertTableInput body, IDispatcher dispatcher, CancellationToken ct) =>
+                Results.Ok(await dispatcher.Send(new UpsertTableCommand(body), ct)))
+             .WithName("UpsertTable")
+             .RequireAuthorization("admin");
+
+        admin.MapPost("/tables/{number}/rotate", async (
+                string number, IDispatcher dispatcher, CancellationToken ct) =>
+                Results.Ok(await dispatcher.Send(new RotateTableTokenCommand(number), ct)))
+             .WithName("RotateTableToken")
              .RequireAuthorization("admin");
     }
 }

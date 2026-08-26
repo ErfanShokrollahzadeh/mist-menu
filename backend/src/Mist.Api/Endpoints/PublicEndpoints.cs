@@ -4,6 +4,7 @@ using Mist.Application.Feedback;
 using Mist.Application.Menu;
 using Mist.Application.Orders;
 using Mist.Application.Service;
+using Mist.Application.Tables;
 
 namespace Mist.Api.Endpoints;
 
@@ -42,6 +43,16 @@ public static class PublicEndpoints
                     Results.Ok(await dispatcher.Send(new RequestBillCommand(input), ct)))
            .WithName("RequestBill")
            .RequireRateLimiting("public-write");
+
+        // Anonymous by necessity: the customer scanning the code has no account.
+        // An unknown token 404s, so guessing one buys nothing.
+        api.MapGet("/tables/resolve/{qrToken}", async (
+                string qrToken, IDispatcher dispatcher, CancellationToken ct) =>
+            {
+                var table = await dispatcher.Send(new ResolveTableQuery(qrToken), ct);
+                return table is null ? Results.NotFound() : Results.Ok(table);
+            })
+           .WithName("ResolveTable");
 
         api.MapPost("/feedback",
                 async (FeedbackInput input, IDispatcher dispatcher, CancellationToken ct) =>

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, ChefHat, BookOpen, LogOut } from "lucide-react";
+import { LayoutDashboard, ChefHat, BookOpen, QrCode, LogOut } from "lucide-react";
 import { useAuth } from "@/stores/auth";
 import { adminApi } from "@/lib/admin/client";
 import { GlassButton } from "@/components/glass/GlassButton";
@@ -18,6 +18,7 @@ export function AdminBar() {
     { href: `/${lang}/admin`, label: "Panel", icon: LayoutDashboard, adminOnly: true },
     { href: `/${lang}/admin/kds`, label: "Mutfak", icon: ChefHat, adminOnly: false },
     { href: `/${lang}/admin/menu`, label: "Menü", icon: BookOpen, adminOnly: true },
+    { href: `/${lang}/admin/tables`, label: "Masalar", icon: QrCode, adminOnly: true },
   ].filter((l) => !l.adminOnly || isAdmin());
 
   const signOut = async () => {

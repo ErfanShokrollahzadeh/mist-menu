@@ -1,7 +1,7 @@
 "use client";
 
 import type { Order, OrderStatus } from "@/lib/api/contracts";
-import type { AdminApi, AuthTokens, UpsertItemInput } from "./contracts";
+import type { AdminApi, AuthTokens, TableDto, UpsertItemInput, UpsertTableInput } from "./contracts";
 import type { AnalyticsDto } from "./analytics";
 import { useAuth } from "@/stores/auth";
 
@@ -91,6 +91,14 @@ export const adminApi: AdminApi = {
     authed<void>(`/api/v1/admin/menu/${categorySlug}/reorder`, {
       method: "POST", body: JSON.stringify({ slugs }),
     }),
+
+  tables: () => authed<TableDto[]>("/api/v1/admin/tables"),
+
+  upsertTable: (input: UpsertTableInput) =>
+    authed<TableDto>("/api/v1/admin/tables", { method: "PUT", body: JSON.stringify(input) }),
+
+  rotateToken: (number: string) =>
+    authed<TableDto>(`/api/v1/admin/tables/${number}/rotate`, { method: "POST" }),
 
   changeStatus: (orderId: string, status: OrderStatus) =>
     authed<Order>(`/api/v1/admin/orders/${orderId}/status`, {

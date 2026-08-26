@@ -24,6 +24,9 @@ export interface AdminApi {
   upsertItem(input: UpsertItemInput): Promise<void>;
   deleteItem(categorySlug: string, slug: string): Promise<void>;
   reorder(categorySlug: string, slugs: string[]): Promise<void>;
+  tables(): Promise<TableDto[]>;
+  upsertTable(input: UpsertTableInput): Promise<TableDto>;
+  rotateToken(number: string): Promise<TableDto>;
   changeStatus(orderId: string, status: OrderStatus): Promise<Order>;
 }
 
@@ -38,4 +41,12 @@ export interface UpsertItemInput {
   allergens: string[];
   calories: number | null;
   isAvailable: boolean;
+}
+
+export interface TableDto {
+  id: string; number: string; zone: string;
+  seats: number; isActive: boolean; qrToken: string;
+}
+export interface UpsertTableInput {
+  number: string; zone: string; seats: number; isActive: boolean;
 }

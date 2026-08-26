@@ -66,6 +66,18 @@ scripts/              One-shot data codemods, retained for auditability
 backend/src/          Mist.Domain · Mist.Application · Mist.Infrastructure · Mist.Api
 ```
 
+## Table QR codes
+
+Each table carries an opaque token, and its printed code links to
+`/tr/menu?t=<token>`. The API resolves the token to a table; an unknown one
+resolves to nothing. Codes printed before this change use `?table=<number>`,
+which is still accepted so they keep working — a bare number is forgeable, so
+drop that fallback (`src/components/system/TableSync.tsx`) once every table has
+been reprinted.
+
+Rotating a table's token from the admin QR page invalidates whatever is
+currently printed for it, which is the lever to pull if a code leaks.
+
 ## Localization
 
 Turkish is the default locale; `/en` serves English. Both the UI strings and the full menu are

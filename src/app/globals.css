@@ -283,3 +283,31 @@
   from { transform: translate3d(0, 0, 0) scale(1); }
   to   { transform: translate3d(3%, -4%, 0) scale(1.12); }
 }
+
+/* ============================================================
+   PRINT — the QR sheet is a physical artefact, so the app's
+   chrome, glass and dark palette must not follow it onto paper.
+   ============================================================ */
+
+@media print {
+  header, nav, [data-sonner-toaster] { display: none !important; }
+
+  :root, .dark {
+    --surface: #ffffff;
+    --ink: #000000;
+    --ink-muted: #333333;
+    --ink-faint: #555555;
+    --glass-bg: #ffffff;
+    --glass-border: #000000;
+    --glass-shadow: none;
+    --hairline: #cccccc;
+  }
+
+  body { background: #fff !important; color: #000 !important; }
+
+  .glass, .glass-strong, .glass-legible {
+    background: #fff !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+  }
+}

@@ -49,6 +49,7 @@ builder.Services.AddScoped<IMenuCache, MenuCache>();
 builder.Services.AddScoped<IMenuReader, MenuReader>();
 builder.Services.AddScoped<Mist.Application.Analytics.IAnalyticsReader, AnalyticsReader>();
 builder.Services.AddScoped<Mist.Application.MenuAdmin.IMenuWriter, MenuWriter>();
+builder.Services.AddScoped<Mist.Application.Tables.ITableRepository, TableRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IServiceCallRepository, ServiceCallRepository>();
 builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
