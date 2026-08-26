@@ -18,6 +18,9 @@ public sealed class MistDbContext(DbContextOptions<MistDbContext> options) : DbC
     public DbSet<Feedback> Feedback => Set<Feedback>();
     public DbSet<CafeSetting> Settings => Set<CafeSetting>();
     public DbSet<Announcement> Announcements => Set<Announcement>();
+    public DbSet<StaffUser> StaffUsers => Set<StaffUser>();
+    public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
+    public DbSet<OrderStatusEvent> OrderStatusEvents => Set<OrderStatusEvent>();
 
     protected override void OnModelCreating(ModelBuilder b)
     {

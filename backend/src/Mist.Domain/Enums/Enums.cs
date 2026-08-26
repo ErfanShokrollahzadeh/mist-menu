@@ -11,3 +11,5 @@ public enum PaymentMethod { Cash, Card, Split }
 public enum ModifierSelection { Single, Multiple }
 
 public enum TableZone { Indoor, Terrace, Garden }
+
+public enum StaffRole { Staff, Admin }

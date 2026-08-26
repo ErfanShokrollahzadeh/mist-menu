@@ -1,5 +1,8 @@
+using System.Text;
 using System.Threading.RateLimiting;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
 using Mist.Api.Endpoints;
 using Mist.Api.Hubs;
@@ -8,6 +11,9 @@ using Mist.Application.Feedback;
 using Mist.Application.Menu;
 using Mist.Application.Orders;
 using Mist.Application.Service;
+using Mist.Application.Auth;
+using Mist.Domain.Enums;
+using Mist.Infrastructure.Auth;
 using Mist.Infrastructure.Caching;
 using Mist.Infrastructure.Persistence;
 using Mist.Infrastructure.Persistence.Seed;
@@ -46,6 +52,60 @@ builder.Services.AddScoped<IServiceCallRepository, ServiceCallRepository>();
 builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
 builder.Services.AddScoped<IRealtimeNotifier, SignalRNotifier>();
 builder.Services.AddScoped<MenuSeeder>();
+builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IStaffDirectory, StaffDirectory>();
+builder.Services.AddScoped<StaffSeeder>();
+
+/* ── Authentication ──────────────────────────────────────────────────────
+      The signing key is required, never defaulted: a key committed to source
+      lets anyone who reads the repository mint a valid admin token. */
+builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(JwtOptions.Section));
+var jwt = builder.Configuration.GetSection(JwtOptions.Section).Get<JwtOptions>() ?? new JwtOptions();
+if (string.IsNullOrWhiteSpace(jwt.SigningKey))
+    throw new InvalidOperationException(
+        "Jwt:SigningKey is not configured. Set the Jwt__SigningKey environment variable "
+        + "to a random value of at least 32 bytes.");
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = jwt.Issuer,
+            ValidAudience = jwt.Audience,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.SigningKey)),
+            ClockSkew = TimeSpan.FromSeconds(30),
+        };
+
+        // A browser WebSocket cannot set an Authorization header, so SignalR
+        // passes the token as a query parameter. Without this hook every staff
+        // hub connection fails the moment JoinStaff is gated.
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                var token = context.Request.Query["access_token"];
+                if (!string.IsNullOrEmpty(token) &&
+                    context.HttpContext.Request.Path.StartsWithSegments("/hubs"))
+                {
+                    context.Token = token;
+                }
+                return Task.CompletedTask;
+            },
+        };
+    });
+
+builder.Services.AddAuthorization(options =>
+{
+    // Admin implies staff; the KDS is usable by both.
+    options.AddPolicy("staff", p => p.RequireRole(nameof(StaffRole.Staff), nameof(StaffRole.Admin)));
+    options.AddPolicy("admin", p => p.RequireRole(nameof(StaffRole.Admin)));
+});
 
 builder.Services.AddSignalR();
 builder.Services.AddOpenApi();
@@ -62,6 +122,12 @@ builder.Services.AddCors(o => o.AddDefaultPolicy(p => p
 builder.Services.AddRateLimiter(o =>
 {
     o.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+    o.AddPolicy("auth", context => RateLimitPartition.GetFixedWindowLimiter(
+        partitionKey: context.Connection.RemoteIpAddress?.ToString() ?? "anonymous",
+        factory: _ => new FixedWindowRateLimiterOptions
+        {
+            PermitLimit = 5, Window = TimeSpan.FromMinutes(1), QueueLimit = 0,
+        }));
     o.AddPolicy("public-write", context => RateLimitPartition.GetFixedWindowLimiter(
         // Partition on table when present so one noisy table cannot mute the room.
         partitionKey: context.Request.Headers["X-Mist-Table"].FirstOrDefault()
@@ -79,8 +145,11 @@ if (app.Environment.IsDevelopment()) app.MapOpenApi();
 app.UseExceptionHandler();
 app.UseCors();
 app.UseRateLimiter();
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapPublicEndpoints();
+app.MapAuthEndpoints();
 app.MapHub<OrderHub>("/hubs/orders");
 app.MapHub<ServiceCallHub>("/hubs/service");
 app.MapGet("/health", () => Results.Ok(new { status = "ok" }));
@@ -96,6 +165,7 @@ if (args.Contains("seed"))
         "..", "..", "..", "data", "menu.source.json");
     await scope.ServiceProvider.GetRequiredService<MenuSeeder>()
         .SeedAsync(Path.GetFullPath(sourcePath));
+    await scope.ServiceProvider.GetRequiredService<StaffSeeder>().SeedAsync();
     return;
 }
 

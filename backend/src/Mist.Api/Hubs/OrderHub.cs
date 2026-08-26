@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Mist.Api.Hubs;
@@ -17,7 +18,12 @@ public sealed class OrderHub : Hub
     public Task LeaveTable(string tableId) =>
         Groups.RemoveFromGroupAsync(Context.ConnectionId, TableGroup(tableId));
 
-    /// <summary>Kitchen display and waiter tablets. Gated in pass 2 once the
-    /// admin surfaces land; JWT plumbing is already wired in Program.cs.</summary>
+    /// <summary>
+    /// Kitchen display and waiter tablets. Requires a staff token, which the
+    /// browser supplies as an access_token query parameter because WebSockets
+    /// cannot send an Authorization header (see the JwtBearerEvents hook in
+    /// Program.cs).
+    /// </summary>
+    [Authorize(Policy = "staff")]
     public Task JoinStaff() => Groups.AddToGroupAsync(Context.ConnectionId, StaffGroup);
 }
