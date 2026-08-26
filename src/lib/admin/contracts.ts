@@ -1,4 +1,5 @@
 import type { Order, OrderStatus } from "@/lib/api/contracts";
+import type { AnalyticsDto } from "./analytics";
 
 export interface AuthTokens {
   accessToken: string;
@@ -18,5 +19,6 @@ export interface AdminApi {
   refresh(refreshToken: string): Promise<AuthTokens>;
   logout(refreshToken: string): Promise<void>;
   kitchenBoard(): Promise<Order[]>;
+  analytics(from: string, to: string): Promise<AnalyticsDto>;
   changeStatus(orderId: string, status: OrderStatus): Promise<Order>;
 }

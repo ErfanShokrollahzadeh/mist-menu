@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using Mist.Application.Abstractions;
+using Mist.Application.Analytics;
 using Mist.Application.Orders;
 using Mist.Domain.Enums;
 
@@ -38,5 +39,17 @@ public static class AdminEndpoints
                 return Results.Ok(order);
             })
              .WithName("ChangeOrderStatus");
+
+        // Sales figures are the owner's business, not every waiter's.
+        admin.MapGet("/analytics", async (
+                DateOnly? from, DateOnly? to, IDispatcher dispatcher, CancellationToken ct) =>
+            {
+                var today = DateOnly.FromDateTime(DateTime.UtcNow);
+                var start = from ?? today.AddDays(-29);
+                var end = to ?? today;
+                return Results.Ok(await dispatcher.Send(new GetAnalyticsQuery(start, end), ct));
+            })
+             .WithName("GetAnalytics")
+             .RequireAuthorization("admin");
     }
 }

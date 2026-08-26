@@ -47,6 +47,7 @@ else
 builder.Services.AddCqrs<GetMenuQuery>();
 builder.Services.AddScoped<IMenuCache, MenuCache>();
 builder.Services.AddScoped<IMenuReader, MenuReader>();
+builder.Services.AddScoped<Mist.Application.Analytics.IAnalyticsReader, AnalyticsReader>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IServiceCallRepository, ServiceCallRepository>();
 builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();

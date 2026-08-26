@@ -2,6 +2,7 @@
 
 import type { Order, OrderStatus } from "@/lib/api/contracts";
 import type { AdminApi, AuthTokens } from "./contracts";
+import type { AnalyticsDto } from "./analytics";
 import { useAuth } from "@/stores/auth";
 
 const BASE = process.env.NEXT_PUBLIC_API_URL ?? "";
@@ -71,6 +72,9 @@ export const adminApi: AdminApi = {
     }),
 
   kitchenBoard: () => authed<Order[]>("/api/v1/admin/orders/board"),
+
+  analytics: (from: string, to: string) =>
+    authed<AnalyticsDto>(`/api/v1/admin/analytics?from=${from}&to=${to}`),
 
   changeStatus: (orderId: string, status: OrderStatus) =>
     authed<Order>(`/api/v1/admin/orders/${orderId}/status`, {
