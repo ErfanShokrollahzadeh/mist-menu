@@ -150,6 +150,7 @@ app.UseAuthorization();
 
 app.MapPublicEndpoints();
 app.MapAuthEndpoints();
+app.MapAdminEndpoints();
 app.MapHub<OrderHub>("/hubs/orders");
 app.MapHub<ServiceCallHub>("/hubs/service");
 app.MapGet("/health", () => Results.Ok(new { status = "ok" }));

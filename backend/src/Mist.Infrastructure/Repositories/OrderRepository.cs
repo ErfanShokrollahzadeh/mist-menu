@@ -95,6 +95,58 @@ public sealed class OrderRepository(MistDbContext db) : IOrderRepository
         return orders.Select(Map).ToList();
     }
 
+    public async Task<OrderStatus?> GetStatusAsync(Guid orderId, CancellationToken ct)
+    {
+        var found = await db.Orders.AsNoTracking()
+            .Where(o => o.Id == orderId)
+            .Select(o => (OrderStatus?)o.Status)
+            .FirstOrDefaultAsync(ct);
+        return found;
+    }
+
+    public async Task<OrderDto> ChangeStatusAsync(
+        Guid orderId, OrderStatus from, OrderStatus to,
+        Guid? staffUserId, string? staffName, CancellationToken ct)
+    {
+        var order = await db.Orders.FirstOrDefaultAsync(o => o.Id == orderId, ct)
+            ?? throw new InvalidOperationException($"Unknown order '{orderId}'.");
+
+        // Guard against two staff dragging the same card at once: if the row
+        // moved since the caller read it, their move is stale.
+        if (order.Status != from)
+            throw new ArgumentException(
+                $"Order already moved to {order.Status}; refresh the board.", nameof(from));
+
+        order.Status = to;
+        order.UpdatedAt = DateTimeOffset.UtcNow;
+
+        db.OrderStatusEvents.Add(new OrderStatusEvent
+        {
+            OrderId = orderId,
+            FromStatus = from,
+            ToStatus = to,
+            ChangedByStaffUserId = staffUserId,
+            ChangedByName = staffName,
+        });
+
+        await db.SaveChangesAsync(ct);
+
+        var saved = await Query().FirstAsync(o => o.Id == orderId, ct);
+        return Map(saved);
+    }
+
+    public async Task<IReadOnlyList<OrderDto>> KitchenBoardAsync(CancellationToken ct)
+    {
+        var orders = await Query()
+            .Where(o => o.Status != OrderStatus.Cancelled)
+            // Paid orders leave the board after a while; keeping the last hour
+            // gives staff somewhere to correct a mis-drag.
+            .Where(o => o.Status != OrderStatus.Paid || o.UpdatedAt > DateTimeOffset.UtcNow.AddHours(-1))
+            .OrderBy(o => o.CreatedAt)
+            .ToListAsync(ct);
+        return orders.Select(Map).ToList();
+    }
+
     private IQueryable<Order> Query() =>
         db.Orders.AsNoTracking()
             .Include(o => o.CafeTable)

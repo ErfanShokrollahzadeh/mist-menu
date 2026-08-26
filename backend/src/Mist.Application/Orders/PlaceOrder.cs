@@ -40,4 +40,14 @@ public interface IOrderRepository
     Task<OrderDto?> FindByClientRequestIdAsync(string clientRequestId, CancellationToken ct);
     Task<OrderDto> CreateAsync(PlaceOrderInput input, CancellationToken ct);
     Task<IReadOnlyList<OrderDto>> ActiveForTableAsync(string tableId, CancellationToken ct);
+
+    Task<Mist.Domain.Enums.OrderStatus?> GetStatusAsync(Guid orderId, CancellationToken ct);
+
+    /// <summary>Writes the new status and an OrderStatusEvent in one transaction.</summary>
+    Task<OrderDto> ChangeStatusAsync(
+        Guid orderId, Mist.Domain.Enums.OrderStatus from, Mist.Domain.Enums.OrderStatus to,
+        Guid? staffUserId, string? staffName, CancellationToken ct);
+
+    /// <summary>Everything the kitchen still has to act on.</summary>
+    Task<IReadOnlyList<OrderDto>> KitchenBoardAsync(CancellationToken ct);
 }
