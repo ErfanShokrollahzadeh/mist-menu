@@ -10,13 +10,24 @@ export const spring = {
 /** Parent of a staggered cascade — grids, rails, lists. */
 export const cascade: Variants = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.045, delayChildren: 0.06 } },
+  // 0.045 put the last card of the 20-item dessert grid at ~0.96s, which reads
+  // as the section still loading. Tightened, but deliberately not to ~0: a
+  // shorter stagger means *more* cards animating at once, and each one is a
+  // backdrop-filtered surface.
+  show: { transition: { staggerChildren: 0.03, delayChildren: 0.05 } },
 };
 
-/** Child of `cascade`. Rises and settles. */
+/**
+ * Child of `cascade`. Rises and settles.
+ *
+ * No `scale` here. Every card is a `backdrop-filter` surface, and scaling one
+ * resamples the filtered backdrop on each frame of the spring — the single most
+ * expensive way to animate this element. `y` moves it over a static backdrop,
+ * which is much cheaper, and reads almost identically.
+ */
 export const cascadeItem: Variants = {
-  hidden: { opacity: 0, y: 22, scale: 0.97 },
-  show: { opacity: 1, y: 0, scale: 1, transition: spring.soft },
+  hidden: { opacity: 0, y: 22 },
+  show: { opacity: 1, y: 0, transition: spring.soft },
 };
 
 export const fadeUp: Variants = {

@@ -1,11 +1,12 @@
 "use client";
 
+import { memo } from "react";
 import Image from "next/image";
 import { motion } from "motion/react";
 import { Plus } from "lucide-react";
 import type { MenuItem } from "@/types/menu";
 import { useLanguage } from "@/lib/i18n/LanguageProvider";
-import { formatPrice } from "@/lib/menu";
+import { blurFor, formatPrice } from "@/lib/menu";
 import { cascadeItem } from "@/lib/motion";
 import { DietaryBadges } from "./DietaryBadges";
 import { cn } from "@/lib/cn";
@@ -34,7 +35,25 @@ const CATEGORY_GLOW: Record<string, string> = {
   nargileler: "var(--color-azure-400)",
 };
 
-export function ItemCard({
+/**
+ * A single dish. Up to 82 of these mount in one commit when a group tab is
+ * tapped, so everything here is costed per-card and multiplied by 82:
+ *
+ * - The card keeps its `glass`. What it no longer carries is a nested
+ *   `backdrop-blur` on the price pill, `glass` on each dietary badge, or the
+ *   64px-blur hover glow — the glow was `opacity-0` behind a `group-hover`, so
+ *   on a phone, where this menu is actually read, it rendered a blur for an
+ *   effect no touch device can ever trigger.
+ * - The hover lift moved out too. Motion owns this element's inline `transform`
+ *   for the entrance cascade, so a CSS `hover:` translate could never win
+ *   against it; the image's own `group-hover` zoom already carries the
+ *   affordance on pointer devices and costs nothing on phones.
+ * - `memo` is load-bearing: without it every keystroke in search re-rendered
+ *   all 82 cards, because `useDeferredValue` defers the *query*, not the tree.
+ *   It only holds while `onOpen`/`onQuickAdd` stay referentially stable, which
+ *   is why MenuBrowser wraps both in `useCallback`.
+ */
+function ItemCardImpl({
   item,
   onOpen,
   onQuickAdd,
@@ -48,22 +67,14 @@ export function ItemCard({
   const { lang, t } = useLanguage();
   const glow = CATEGORY_GLOW[item.categorySlug] ?? "var(--color-gold-400)";
   const hasChoices = item.modifierGroups.length > 0;
+  const blur = item.image.src ? blurFor(item.image.src) : undefined;
 
   return (
     <motion.article
       variants={cascadeItem}
-      whileHover={{ y: -4 }}
-      transition={{ type: "spring", stiffness: 320, damping: 26 }}
       className="group glass glass-edge content-auto relative overflow-hidden rounded-[var(--radius-card)]"
       style={{ ["--glow" as string]: glow }}
     >
-      {/* The dish's ambient colour, revealed on hover. */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -inset-8 -z-10 opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-30"
-        style={{ background: `radial-gradient(circle at 50% 30%, var(--glow), transparent 65%)` }}
-      />
-
       <button
         type="button"
         onClick={() => onOpen(item)}
@@ -79,12 +90,14 @@ export function ItemCard({
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 280px"
               className="object-cover transition-transform duration-[600ms] ease-[var(--ease-out-expo)] group-hover:scale-[1.07]"
               priority={priority}
+              {...(priority ? { fetchPriority: "high" as const } : {})}
+              {...(blur ? { placeholder: "blur" as const, blurDataURL: blur } : {})}
             />
           ) : (
             <div className="size-full bg-[var(--hairline)]" />
           )}
           <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/55 to-transparent" />
-          <span className="absolute right-2.5 bottom-2.5 rounded-[var(--radius-pill)] bg-black/55 px-2.5 py-1 text-sm font-bold text-white tabular-nums backdrop-blur-sm">
+          <span className="absolute right-2.5 bottom-2.5 rounded-[var(--radius-pill)] bg-black/60 px-2.5 py-1 text-sm font-bold text-white tabular-nums">
             {formatPrice(item.priceMinor, lang)}
           </span>
           <DietaryBadges tags={item.tags} t={t} compact className="absolute top-2.5 left-2.5" />
@@ -122,3 +135,5 @@ export function ItemCard({
     </motion.article>
   );
 }
+
+export const ItemCard = memo(ItemCardImpl);
