@@ -1,12 +1,13 @@
 "use client";
 
+import { memo } from "react";
 import { motion } from "motion/react";
 import type { MenuCategory, MenuItem } from "@/types/menu";
 import { useLanguage } from "@/lib/i18n/LanguageProvider";
 import { cascade } from "@/lib/motion";
 import { ItemCard } from "./ItemCard";
 
-export function CategorySection({
+function CategorySectionImpl({
   category,
   items,
   onOpen,
@@ -54,3 +55,11 @@ export function CategorySection({
     </section>
   );
 }
+
+/**
+ * Memoized because a group tab mounts up to 11 of these at once and a keystroke
+ * in search would otherwise re-render every section and all of their cards.
+ * The `items` arrays come straight off the static dataset, so their identity is
+ * stable between renders; MenuBrowser keeps `onOpen`/`onQuickAdd` stable too.
+ */
+export const CategorySection = memo(CategorySectionImpl);

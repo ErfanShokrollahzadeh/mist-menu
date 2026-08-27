@@ -1,39 +1,33 @@
-import Fuse, { type IFuseOptions } from "fuse.js";
-import { allItems } from "./menu";
-import { foldTr } from "./i18n/fold";
 import type { MenuItem, Locale } from "@/types/menu";
 
-type Indexed = { item: MenuItem; haystack: string };
-
-const OPTIONS: IFuseOptions<Indexed> = {
-  keys: ["haystack"],
-  threshold: 0.34,       // forgiving enough for typos, tight enough to stay relevant
-  ignoreLocation: true,
-  minMatchCharLength: 2,
-};
-
 /**
- * One index per locale, built lazily. The haystacks were folded at codemod
- * time, so a keystroke costs one fold of the query rather than 251 of the data.
+ * Lazy façade over `./search-impl`.
+ *
+ * fuse.js plus the pre-folded haystacks are ~60 KB that most visitors never
+ * touch — a QR menu is mostly browsed, not searched. Keeping the real
+ * implementation behind a dynamic import takes that off the first-paint path
+ * without making the render path async.
  */
-const indexes = new Map<Locale, Fuse<Indexed>>();
 
-function indexFor(locale: Locale): Fuse<Indexed> {
-  let fuse = indexes.get(locale);
-  if (!fuse) {
-    fuse = new Fuse(
-      allItems.map((item) => ({ item, haystack: item.searchBlob[locale] })),
-      OPTIONS,
-    );
-    indexes.set(locale, fuse);
-  }
-  return fuse;
+type Impl = typeof import("./search-impl");
+
+let impl: Impl | null = null;
+let pending: Promise<Impl> | null = null;
+
+/** Starts (or joins) the fetch of fuse.js and the index. Idempotent. */
+export function loadSearch(): Promise<Impl> {
+  pending ??= import("./search-impl").then((m) => (impl = m));
+  return pending;
 }
 
+/** True once `loadSearch()` has resolved and `searchMenu` can actually answer. */
+export const isSearchReady = () => impl !== null;
+
+/**
+ * Deliberately synchronous: the component tree stays simple and `useMemo` keeps
+ * working. Returns [] until the chunk lands — callers must re-run the query
+ * once `loadSearch()` resolves, which MenuBrowser does via state.
+ */
 export function searchMenu(query: string, locale: Locale, limit = 60): MenuItem[] {
-  const q = foldTr(query);
-  if (q.length < 2) return [];
-  return indexFor(locale)
-    .search(q, { limit })
-    .map((r) => r.item.item);
+  return impl ? impl.searchMenu(query, locale, limit) : [];
 }

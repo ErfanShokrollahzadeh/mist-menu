@@ -56,7 +56,6 @@
   /* ── Animation ───────────────────────────────────────────── */
   --animate-shimmer: shimmer 2.2s linear infinite;
   --animate-float: float 9s ease-in-out infinite;
-  --animate-drift: drift 24s ease-in-out infinite alternate;
 }
 
 /* ============================================================
@@ -211,6 +210,17 @@
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(200%);
 }
 
+/* The same material as `glass`, minus the backdrop-filter — for surfaces that
+   sit *inside* another glass element. A backdrop-filtered element is a backdrop
+   root, so a nested filter cannot run until its parent has rasterized; the
+   passes serialise. On the cold-drinks tab that was 82 price pills and 74
+   dietary badges of strictly serial blur work for an effect that is invisible
+   on top of a photo. */
+@utility glass-flat {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+}
+
 /* The specular top edge that sells the material as glass. */
 @utility glass-edge {
   position: relative;
@@ -241,7 +251,10 @@
 /* Long grids stay cheap to scroll. */
 @utility content-auto {
   content-visibility: auto;
-  contain-intrinsic-size: auto 320px;
+  /* Measured card height is ~215px at 2-col and ~285px at 4-col. The old 320px
+     guess made every row shrink as its cards scrolled in, which fought scroll
+     anchoring and showed up as jitter on the way down the page. */
+  contain-intrinsic-size: auto 230px;
 }
 
 /* Accessibility guard: glass alone rarely clears WCAG AA for body text,
@@ -277,11 +290,6 @@
 @keyframes float {
   0%, 100% { transform: translateY(0) }
   50%      { transform: translateY(-10px) }
-}
-
-@keyframes drift {
-  from { transform: translate3d(0, 0, 0) scale(1); }
-  to   { transform: translate3d(3%, -4%, 0) scale(1.12); }
 }
 
 /* ============================================================

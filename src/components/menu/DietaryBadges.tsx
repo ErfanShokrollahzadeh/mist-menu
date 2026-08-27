@@ -30,7 +30,7 @@ export function DietaryBadges({
           <li
             key={tag}
             className={cn(
-              "glass inline-flex items-center gap-1 rounded-[var(--radius-pill)] px-2 py-0.5 text-[10px] font-semibold",
+              "glass-flat inline-flex items-center gap-1 rounded-[var(--radius-pill)] px-2 py-0.5 text-[10px] font-semibold",
               meta!.cls,
             )}
             title={t(meta!.label)}

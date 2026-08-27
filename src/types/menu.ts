@@ -65,8 +65,13 @@ export interface MenuItem {
   modifierGroups: ModifierGroup[];
   isAvailable: boolean;
   sortOrder: number;
-  /** Pre-folded haystack so search does not re-normalise on every keystroke. */
-  searchBlob: Localized;
+  /**
+   * Pre-folded haystacks. Present in `data/menu.source.json` (what the seeder
+   * reads) but deliberately stripped from the client dataset — they are ~18% of
+   * its weight and only search needs them, so they ship in a lazy chunk. See
+   * scripts/build-client-menu.mjs.
+   */
+  searchBlob?: Localized;
 }
 
 export interface MenuCategory {

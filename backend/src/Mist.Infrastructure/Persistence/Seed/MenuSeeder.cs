@@ -8,9 +8,11 @@ using Mist.Domain.ValueObjects;
 namespace Mist.Infrastructure.Persistence.Seed;
 
 /// <summary>
-/// Seeds from data/menu.source.json — the same file the frontend's static
-/// adapter imports. Sharing one source is what makes mock data and database
-/// content agree by construction rather than by discipline.
+/// Seeds from data/menu.source.json — the canonical dataset the frontend's
+/// static adapter is also derived from (scripts/build-client-menu.mjs strips
+/// the search haystacks out of it at build time). Sharing one source is what
+/// makes mock data and database content agree by construction rather than by
+/// discipline.
 /// </summary>
 public sealed class MenuSeeder(MistDbContext db, ILogger<MenuSeeder> logger)
 {
