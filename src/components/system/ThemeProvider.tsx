@@ -5,6 +5,13 @@ import { createContext, useCallback, useContext, useEffect, useState, type React
 export type ThemeChoice = "light" | "dark" | "system";
 const STORAGE_KEY = "mist.theme";
 
+/**
+ * Dark is the design's home, not merely what the OS happens to prefer, so a
+ * first-time visitor lands in it regardless of device setting. "system" is
+ * still selectable — it is just no longer the default.
+ */
+const DEFAULT_CHOICE: ThemeChoice = "dark";
+
 type Ctx = { choice: ThemeChoice; resolved: "light" | "dark"; setChoice: (c: ThemeChoice) => void };
 const ThemeContext = createContext<Ctx | null>(null);
 
@@ -13,14 +20,14 @@ const ThemeContext = createContext<Ctx | null>(null);
  * flash. Kept in sync with the provider below.
  */
 export const THEME_BOOTSTRAP = `(function(){try{
-var c=localStorage.getItem('${STORAGE_KEY}')||'system';
+var c=localStorage.getItem('${STORAGE_KEY}')||'${DEFAULT_CHOICE}';
 var d=c==='dark'||(c==='system'&&matchMedia('(prefers-color-scheme:dark)').matches);
 document.documentElement.classList.toggle('dark',d);
 }catch(e){}})();`;
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [choice, setChoiceState] = useState<ThemeChoice>("system");
-  const [resolved, setResolved] = useState<"light" | "dark">("light");
+  const [choice, setChoiceState] = useState<ThemeChoice>(DEFAULT_CHOICE);
+  const [resolved, setResolved] = useState<"light" | "dark">("dark");
 
   const apply = useCallback((next: ThemeChoice) => {
     const mql = window.matchMedia("(prefers-color-scheme: dark)");
@@ -30,13 +37,13 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    const stored = (localStorage.getItem(STORAGE_KEY) as ThemeChoice | null) ?? "system";
+    const stored = (localStorage.getItem(STORAGE_KEY) as ThemeChoice | null) ?? DEFAULT_CHOICE;
     setChoiceState(stored);
     apply(stored);
 
     const mql = window.matchMedia("(prefers-color-scheme: dark)");
     const onChange = () => {
-      if ((localStorage.getItem(STORAGE_KEY) ?? "system") === "system") apply("system");
+      if ((localStorage.getItem(STORAGE_KEY) ?? DEFAULT_CHOICE) === "system") apply("system");
     };
     mql.addEventListener("change", onChange);
     return () => mql.removeEventListener("change", onChange);

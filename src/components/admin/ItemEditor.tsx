@@ -140,7 +140,7 @@ export function ItemEditor({
                     on ? prev.filter((x) => x !== t.id) : [...prev, t.id])}
                   className={cn(
                     "rounded-[var(--radius-pill)] px-3 py-1.5 text-[13px] font-medium transition-colors",
-                    on ? "bg-[var(--secondary)] text-white" : "glass text-[var(--ink-muted)]",
+                    on ? "bg-[var(--secondary)] text-[var(--secondary-contrast)]" : "glass text-[var(--ink-muted)]",
                   )}
                 >
                   {t.label}

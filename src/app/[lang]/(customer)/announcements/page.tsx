@@ -55,7 +55,7 @@ export default function AnnouncementsPage() {
                 />
               </div>
               <div className="space-y-1.5 p-4">
-                <span className="inline-flex items-center gap-1.5 text-[11px] font-bold tracking-wider text-[var(--accent)] uppercase">
+                <span className="inline-flex items-center gap-1.5 text-[11px] font-bold tracking-wider text-[var(--accent-ink)] uppercase">
                   <CalendarDays className="size-3.5" />
                   {post.date[lang]}
                 </span>

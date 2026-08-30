@@ -35,6 +35,7 @@
   "noResults": "Sonuç bulunamadı",
   "noResultsQuery": "\"{query}\" için sonuç bulunamadı.",
   "noResultsDesc": "Aramanıza uygun bir ürün bulunmuyor.",
+  "noResultsFilters": "Seçtiğiniz filtrelere uygun ürün yok.",
   "filters": "Filtreler",
   "resultsFor": "\"{query}\" için {count} sonuç",
   "tagVegan": "Vegan",

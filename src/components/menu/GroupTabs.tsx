@@ -31,7 +31,8 @@ export function GroupTabs({
             onClick={() => onChange(g.slug)}
             className={cn(
               "relative isolate flex shrink-0 items-center gap-2 rounded-[var(--radius-pill)] px-4 py-2.5",
-              "text-sm font-semibold whitespace-nowrap transition-colors duration-200",
+              "text-sm font-semibold whitespace-nowrap",
+              "transition-[color,transform] duration-200 active:scale-95",
               selected ? "text-[var(--accent-contrast)]" : "glass text-[var(--ink-muted)] hover:text-[var(--ink)]",
             )}
           >

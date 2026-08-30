@@ -44,7 +44,7 @@ export default function HomePage() {
           const Icon = tile.icon;
           const body = (
             <>
-              <span className="grid size-11 place-items-center rounded-2xl bg-[var(--accent)]/12 text-[var(--accent)]">
+              <span className="grid size-11 place-items-center rounded-2xl bg-[var(--accent)]/12 text-[var(--accent-ink)]">
                 <Icon className="size-[22px]" strokeWidth={1.9} />
               </span>
               <span className="space-y-0.5">

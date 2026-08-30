@@ -5,16 +5,19 @@ import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "motion/react";
 import { SearchX } from "lucide-react";
 import { toast } from "sonner";
-import type { MenuItem } from "@/types/menu";
+import type { MenuItem, DietaryTag } from "@/types/menu";
 import { groups, categoriesInGroup, getCategory } from "@/lib/menu";
 import { loadSearch, searchMenu } from "@/lib/search";
+import { useScrollSpy, useHeaderCollapse, jumpToCategory } from "@/lib/useScrollSpy";
 import { useLanguage } from "@/lib/i18n/LanguageProvider";
 import { useCart } from "@/stores/cart";
 import { GroupTabs } from "@/components/menu/GroupTabs";
 import { CategoryRail } from "@/components/menu/CategoryRail";
+import { DietaryFilter } from "@/components/menu/DietaryFilter";
 import { SearchField } from "@/components/menu/SearchField";
 import { CategorySection } from "@/components/menu/CategorySection";
 import { fadeUp } from "@/lib/motion";
+import { cn } from "@/lib/cn";
 
 /** Opened by a tap, never needed for first paint — so it is not in the initial bundle. */
 const ItemDetailSheet = dynamic(
@@ -22,13 +25,17 @@ const ItemDetailSheet = dynamic(
   { ssr: false },
 );
 
+/** AND, not OR: chips narrow the menu down, which is what a dietary filter is for. */
+const matchesTags = (item: MenuItem, tags: DietaryTag[]) =>
+  tags.every((tag) => item.tags.includes(tag));
+
 export function MenuBrowser() {
   const { lang, t } = useLanguage();
   const add = useCart((s) => s.add);
 
   const [group, setGroup] = useState(groups[0]!.slug);
-  const [category, setCategory] = useState<string | null>(null);
   const [query, setQuery] = useState("");
+  const [tags, setTags] = useState<DietaryTag[]>([]);
   const [detail, setDetail] = useState<MenuItem | null>(null);
   const [searchReady, setSearchReady] = useState(false);
 
@@ -48,7 +55,7 @@ export function MenuBrowser() {
    * is the opposite of what we want.
    */
   const deferredGroup = useDeferredValue(group);
-  const deferredCategory = useDeferredValue(category);
+  const deferredTags = useDeferredValue(tags);
 
   // Urgent copy: drives the rail, which must track the tab instantly.
   const groupCategories = useMemo(() => categoriesInGroup(group), [group]);
@@ -82,9 +89,12 @@ export function MenuBrowser() {
   }, []);
 
   const sections = useMemo(() => {
+    const filter = (items: MenuItem[]) =>
+      deferredTags.length ? items.filter((i) => matchesTags(i, deferredTags)) : items;
+
     if (searching) {
       // Empty until the chunk lands; `searchReady` re-runs this when it does.
-      const hits = searchMenu(deferredQuery, lang);
+      const hits = filter(searchMenu(deferredQuery, lang));
       const byCategory = new Map<string, MenuItem[]>();
       for (const item of hits) {
         const list = byCategory.get(item.categorySlug) ?? [];
@@ -96,14 +106,25 @@ export function MenuBrowser() {
         .filter((s) => s.category);
     }
     return listCategories
-      .filter((c) => !deferredCategory || c.slug === deferredCategory)
-      .map((c) => ({ category: c, items: c.items }));
-  }, [searching, deferredQuery, lang, listCategories, deferredCategory, searchReady]);
+      .map((c) => ({ category: c, items: filter(c.items) }))
+      .filter((s) => s.items.length > 0);
+  }, [searching, deferredQuery, lang, listCategories, deferredTags, searchReady]);
 
   const resultCount = sections.reduce((n, s) => n + s.items.length, 0);
   // Distinguishes "the index has not arrived" from "there are genuinely no hits",
   // so a fast typist never sees a false "no results".
   const searchPending = searching && !searchReady;
+
+  /* Scrollspy highlights whichever section the reader is actually looking at.
+     Only meaningful while browsing — search results are their own ordering. */
+  const spySlugs = useMemo(() => sections.map((s) => s.category.slug), [sections]);
+  const { active: spyActive, headerRef } = useScrollSpy(spySlugs, !searching);
+
+  /* Scrolling down folds the search and chips away so the food gets the
+     screen; scrolling up brings them straight back. Never while searching —
+     hiding the field you are typing into would be absurd. */
+  const scrolledDown = useHeaderCollapse();
+  const collapsed = scrolledDown && !searching && tags.length === 0;
 
   /*
    * Both handlers are passed to every one of up to 82 memoized cards, so their
@@ -128,14 +149,42 @@ export function MenuBrowser() {
 
   const changeGroup = useCallback((slug: string) => {
     setGroup(slug);
-    setCategory(null);
     setQuery("");
+    window.scrollTo({ top: 0, behavior: "auto" });
   }, []);
+
+  const toggleTag = useCallback((tag: DietaryTag) => {
+    setTags((prev) => (prev.includes(tag) ? prev.filter((x) => x !== tag) : [...prev, tag]));
+  }, []);
+
+  const clearTags = useCallback(() => setTags([]), []);
 
   return (
     <>
-      <div className="glass-strong sticky top-16 z-30 -mx-4 space-y-2 rounded-none px-4 py-3 sm:-mx-6 sm:px-6 lg:mx-[calc(50%-50vw)] lg:px-[calc(50vw-50%+1.5rem)]">
-        <SearchField value={query} onChange={changeQuery} />
+      <div
+        ref={headerRef}
+        data-collapsed={collapsed || undefined}
+        className="glass-strong sticky top-16 z-30 -mx-4 space-y-2 rounded-none px-4 py-3 sm:-mx-6 sm:px-6 lg:mx-[calc(50%-50vw)] lg:px-[calc(50vw-50%+1.5rem)]"
+      >
+        {/* grid-rows 1fr -> 0fr collapses to exactly the content height with a
+            single cheap transition, and needs no measurement in JS. */}
+        <div
+          className={cn(
+            "grid transition-[grid-template-rows,opacity] duration-300 ease-[var(--ease-out-expo)]",
+            collapsed ? "grid-rows-[0fr] opacity-0" : "grid-rows-[1fr] opacity-100",
+          )}
+          aria-hidden={collapsed}
+          // Zero-height but still in the DOM, so without `inert` a keyboard
+          // user could tab into a search field they cannot see.
+          inert={collapsed}
+        >
+          <div className="overflow-hidden">
+            <div className="space-y-2">
+              <SearchField value={query} onChange={changeQuery} />
+              <DietaryFilter active={tags} onToggle={toggleTag} onClear={clearTags} />
+            </div>
+          </div>
+        </div>
         <AnimatePresence mode="wait" initial={false}>
           {searching ? (
             <motion.p
@@ -146,12 +195,16 @@ export function MenuBrowser() {
               exit={{ opacity: 0 }}
               className="px-1 text-xs font-medium text-[var(--ink-muted)]"
             >
-              {searchPending ? " " : t("resultsFor", { query: deferredQuery, count: resultCount })}
+              {searchPending ? " " : t("resultsFor", { query: deferredQuery, count: resultCount })}
             </motion.p>
           ) : (
             <motion.div key="tabs" variants={fadeUp} initial="hidden" animate="show" exit={{ opacity: 0 }}>
               <GroupTabs active={group} onChange={changeGroup} />
-              <CategoryRail categories={groupCategories} active={category} onChange={setCategory} />
+              <CategoryRail
+                categories={groupCategories}
+                active={spyActive}
+                onJump={jumpToCategory}
+              />
             </motion.div>
           )}
         </AnimatePresence>
@@ -179,7 +232,11 @@ export function MenuBrowser() {
             <SearchX className="mx-auto mb-3 size-9 text-[var(--ink-faint)]" strokeWidth={1.6} />
             <h3 className="text-base font-bold">{t("noResults")}</h3>
             <p className="mt-1 text-sm text-[var(--ink-muted)]">
-              {searching ? t("noResultsQuery", { query: deferredQuery }) : t("noResultsDesc")}
+              {searching
+                ? t("noResultsQuery", { query: deferredQuery })
+                : tags.length
+                  ? t("noResultsFilters")
+                  : t("noResultsDesc")}
             </p>
           </motion.div>
         )}

@@ -68,16 +68,18 @@ export function BottomHub() {
                   )}
                   strokeWidth={active ? 2.4 : 1.9}
                 />
-                <AnimatePresence>
+                {/* Keyed on the value, so every increment re-runs the pop rather
+                    than silently swapping the digit. */}
+                <AnimatePresence mode="popLayout" initial={false}>
                   {badge !== null && (
                     <motion.span
-                      key="badge"
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      exit={{ scale: 0 }}
+                      key={badge}
+                      initial={{ scale: 0.3, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      exit={{ scale: 0.3, opacity: 0 }}
                       transition={spring.snappy}
                       aria-hidden
-                      className="absolute -top-1.5 -right-2 grid min-w-[17px] place-items-center rounded-full bg-[var(--secondary)] px-1 text-[10px] font-bold text-white tabular-nums"
+                      className="absolute -top-1.5 -right-2 grid min-w-[17px] place-items-center rounded-full bg-[var(--secondary)] px-1 text-[10px] font-bold text-[var(--secondary-contrast)] tabular-nums"
                     >
                       {badge > 9 ? "9+" : badge}
                     </motion.span>
@@ -91,7 +93,8 @@ export function BottomHub() {
           );
 
           const className = cn(
-            "relative isolate flex flex-1 flex-col items-center justify-center gap-1 rounded-[var(--radius-pill)] py-2 transition-colors duration-200",
+            "relative isolate flex flex-1 flex-col items-center justify-center gap-1 rounded-[var(--radius-pill)] py-2",
+            "transition-[color,transform] duration-200 active:scale-95",
             active ? "text-[var(--accent-contrast)]" : "text-[var(--ink-muted)] hover:text-[var(--ink)]",
           );
 

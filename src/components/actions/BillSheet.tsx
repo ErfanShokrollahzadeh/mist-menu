@@ -160,7 +160,7 @@ export function BillSheet() {
             />
             <div className="flex items-baseline justify-between border-t border-[var(--hairline)] pt-3">
               <span className="text-sm text-[var(--ink-muted)]">{t("perPerson")}</span>
-              <span className="text-xl font-bold tabular-nums text-[var(--accent)]">
+              <span className="text-xl font-bold tabular-nums text-[var(--accent-ink)]">
                 {formatPrice(perPersonMinor, lang)}
               </span>
             </div>

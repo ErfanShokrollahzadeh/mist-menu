@@ -103,7 +103,7 @@ export function FeedbackSheet() {
               <Star
                 className={cn(
                   "size-6 transition-colors",
-                  v <= rating ? "fill-[var(--accent)] text-[var(--accent)]" : "text-[var(--ink-faint)]",
+                  v <= rating ? "fill-[var(--accent-ink)] text-[var(--accent-ink)]" : "text-[var(--ink-faint)]",
                 )}
               />
             </button>
@@ -122,7 +122,7 @@ export function FeedbackSheet() {
                 className={cn(
                   "rounded-[var(--radius-pill)] px-3.5 py-2 text-[13px] font-medium transition-all duration-200",
                   active
-                    ? "bg-[var(--secondary)] text-white"
+                    ? "bg-[var(--secondary)] text-[var(--secondary-contrast)]"
                     : "glass text-[var(--ink-muted)] hover:text-[var(--ink)]",
                 )}
               >

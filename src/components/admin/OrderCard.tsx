@@ -41,7 +41,7 @@ export function OrderCard({ order }: { order: Order }) {
       <ul className="space-y-1">
         {order.lines.map((line, i) => (
           <li key={i} className="flex gap-2 text-sm leading-snug">
-            <span className="font-bold tabular-nums text-[var(--accent)]">{line.quantity}×</span>
+            <span className="font-bold tabular-nums text-[var(--accent-ink)]">{line.quantity}×</span>
             <span className="min-w-0 flex-1">
               {line.name.tr}
               {line.selectedOptions.length > 0 && (

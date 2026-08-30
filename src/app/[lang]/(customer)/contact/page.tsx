@@ -26,7 +26,7 @@ export default function ContactPage() {
         {rows.map(({ icon: Icon, label, value, href }) => {
           const body = (
             <>
-              <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[var(--accent)]/12 text-[var(--accent)]">
+              <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[var(--accent)]/12 text-[var(--accent-ink)]">
                 <Icon className="size-5" strokeWidth={1.9} />
               </span>
               <span className="min-w-0">

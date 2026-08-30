@@ -66,7 +66,7 @@ export function TraySheet() {
               <span className="text-xl font-bold tabular-nums">{formatPrice(subtotal, lang)}</span>
             </div>
             {!tableId && (
-              <p className="text-center text-xs font-medium text-[var(--accent)]">
+              <p className="text-center text-xs font-medium text-[var(--accent-ink)]">
                 {t("tableRequired")}
               </p>
             )}

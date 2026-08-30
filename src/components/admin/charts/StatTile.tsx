@@ -19,7 +19,7 @@ export function StatTile({
         <span className="text-[11px] font-bold tracking-wider text-[var(--ink-faint)] uppercase">
           {label}
         </span>
-        {icon && <span className="text-[var(--accent)]">{icon}</span>}
+        {icon && <span className="text-[var(--accent-ink)]">{icon}</span>}
       </div>
       {/* Values wear ink tokens, never a series colour. */}
       <p className="mt-1.5 text-2xl font-bold tracking-tight tabular-nums">{value}</p>

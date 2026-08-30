@@ -123,7 +123,7 @@ export function ItemDetailSheet({
               <legend className="flex w-full items-baseline justify-between pb-1">
                 <span className="text-sm font-semibold">{group.name[lang]}</span>
                 {group.isRequired && (
-                  <span className="text-[10px] font-bold tracking-wider text-[var(--accent)] uppercase">
+                  <span className="text-[10px] font-bold tracking-wider text-[var(--accent-ink)] uppercase">
                     {t("required")}
                   </span>
                 )}
