@@ -3,11 +3,12 @@ import type { DietaryTag } from "@/types/menu";
 import type { DictionaryKey } from "@/lib/i18n/types";
 import { cn } from "@/lib/cn";
 
-const TAG_META: Partial<Record<DietaryTag, { icon: typeof Leaf; label: DictionaryKey; cls: string }>> = {
+/** Shared with DietaryFilter so the chip and the badge cannot drift apart. */
+export const TAG_META: Partial<Record<DietaryTag, { icon: typeof Leaf; label: DictionaryKey; cls: string }>> = {
   vegan:          { icon: Sprout,  label: "tagVegan",       cls: "text-emerald-600 dark:text-emerald-400" },
   vegetarian:     { icon: Leaf,    label: "tagVegetarian",  cls: "text-lime-600 dark:text-lime-400" },
   spicy:          { icon: Flame,   label: "tagSpicy",       cls: "text-orange-600 dark:text-orange-400" },
-  "chefs-choice": { icon: ChefHat, label: "tagChefsChoice", cls: "text-[var(--accent)]" },
+  "chefs-choice": { icon: ChefHat, label: "tagChefsChoice", cls: "text-[var(--accent-ink)]" },
   caffeine:       { icon: Coffee,  label: "tagCaffeine",    cls: "text-amber-700 dark:text-amber-500" },
 };
 

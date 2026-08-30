@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Plus_Jakarta_Sans, Playfair_Display } from "next/font/google";
 import "../globals.css";
 import { LanguageProvider } from "@/lib/i18n/LanguageProvider";
 import { getDictionary } from "@/lib/i18n";
@@ -9,6 +9,16 @@ import { LOCALES, type Locale } from "@/proxy";
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin", "latin-ext"], // latin-ext carries ğ ı ş İ
   variable: "--font-jakarta",
+  display: "swap",
+});
+
+/* Dish names and section headers. latin-ext again, for the same Turkish
+   glyphs — a display face without ı and ğ would break half this menu. Only
+   the weights actually used are requested, so this costs one small file. */
+const playfair = Playfair_Display({
+  subsets: ["latin", "latin-ext"],
+  weight: ["500", "600", "700"],
+  variable: "--font-playfair",
   display: "swap",
 });
 
@@ -26,8 +36,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f6f8fc" },
-    { media: "(prefers-color-scheme: dark)", color: "#080c15" },
+    { media: "(prefers-color-scheme: light)", color: "#faf8f4" },
+    { media: "(prefers-color-scheme: dark)", color: "#0f0f11" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -50,7 +60,7 @@ export default async function LocaleLayout({
   const dictionary = await getDictionary(locale);
 
   return (
-    <html lang={locale} className={jakarta.variable} suppressHydrationWarning>
+    <html lang={locale} className={`${jakarta.variable} ${playfair.variable}`} suppressHydrationWarning>
       <head>
         {/* Runs before first paint so dark-mode visitors never see a white flash. */}
         <script dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP }} />

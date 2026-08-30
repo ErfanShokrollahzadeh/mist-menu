@@ -5,7 +5,9 @@
 
 /* ============================================================
    MiST CAFÉ — LIQUID GLASS DESIGN SYSTEM
-   Palette derived from the house logo: warm gold on deep azure.
+   Champagne gold on neutral charcoal. Dark is the default and
+   the design's home; light is a first-class daylight variant,
+   because a QR menu gets read on sunny terraces.
    ============================================================ */
 
 @theme {
@@ -22,17 +24,21 @@
   --color-azure-900: #172554;
   --color-azure-950: #0b1120;
 
-  /* ── Gold: the brand accent, straight off the logo ───────── */
-  --color-gold-50: #fefce8;
-  --color-gold-100: #fef08a;
-  --color-gold-200: #fde68a;
-  --color-gold-300: #fde047;
-  --color-gold-400: #facc15;
-  --color-gold-500: #eab308;
-  --color-gold-600: #ca8a04;
-  --color-gold-700: #a16207;
-  --color-gold-800: #854d0e;
-  --color-gold-900: #713f12;
+  /* ── Champagne gold: the brand accent ─────────────────────
+     Built around #D4AF37. The previous scale was Tailwind's
+     yellow — bright and acidic, closer to a highlighter than to
+     metal. Champagne is desaturated and warm, so it reads as an
+     expensive material rather than a colour. */
+  --color-gold-50: #faf7ec;
+  --color-gold-100: #f3ecd2;
+  --color-gold-200: #e9dcac;
+  --color-gold-300: #ddc87d;
+  --color-gold-400: #d4af37;
+  --color-gold-500: #c09b2f;
+  --color-gold-600: #a37f26;
+  --color-gold-700: #82631e;
+  --color-gold-800: #654c19;
+  --color-gold-900: #4a3813;
 
   /* ── Dish-accent hues for ambient card shadows ──────────── */
   --color-ember-500: #f97316;
@@ -42,7 +48,9 @@
 
   /* ── Type ────────────────────────────────────────────────── */
   --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-display: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  /* Playfair carries the dish names and section headers; Jakarta keeps every
+     number, price and control, where a serif would only cost legibility. */
+  --font-display: var(--font-playfair), "Iowan Old Style", Georgia, serif;
 
   /* ── Geometry ────────────────────────────────────────────── */
   --radius-card: 1.375rem;
@@ -67,55 +75,76 @@
 :root {
   color-scheme: light;
 
-  --surface: #f6f8fc;
+  /* Warm bone rather than the old blue-grey, so daylight reads as the
+     same material as the dark theme rather than a different brand. */
+  --surface: #faf8f4;
   --surface-raised: #ffffff;
-  --ink: #101828;
-  --ink-muted: #5b6478;
-  --ink-faint: #8b94a8;
-  --accent: var(--color-gold-600);
-  --accent-contrast: #1a1205;
-  --secondary: var(--color-azure-600);
-  --hairline: rgb(16 24 40 / 0.08);
+  --ink: #1a1714;
+  --ink-muted: #6b6459;
+  --ink-faint: #8f877c;
+  /* Two jobs, two tokens. `--accent` is the champagne gold as a *fill*, brand-
+     true and identical in both themes, and always carries near-black text on
+     top (9.2:1). `--accent-ink` is gold used as *text on the page*, which has
+     to be darkened to clear 4.5:1 — #D4AF37 on this ground is only 2.1:1. */
+  --accent: var(--color-gold-400);
+  --accent-contrast: #100d04;
+  --accent-ink: var(--color-gold-700);
+  --secondary: #3f3a33;
+  --secondary-contrast: #faf8f4;
+  /* Selected category pill. A gold *tint* rather than a solid fill: the group
+     tab above it is a solid gold block, and two solid blocks in one header
+     read as two equally important choices when one clearly outranks the
+     other. Verified at 6.15:1 for the label. */
+  --chip-active: rgb(163 127 38 / 0.20);
+  --chip-active-ink: var(--color-gold-800);
+  --hairline: rgb(26 23 20 / 0.09);
 
   /* Liquid glass */
   --glass-bg: rgb(255 255 255 / 0.62);
   --glass-bg-strong: rgb(255 255 255 / 0.82);
   --glass-border: rgb(255 255 255 / 0.75);
   --glass-highlight: rgb(255 255 255 / 0.9);
-  --glass-shadow: 0 8px 32px rgb(16 24 40 / 0.10), 0 1px 2px rgb(16 24 40 / 0.04);
+  --glass-shadow: 0 8px 32px rgb(26 23 20 / 0.10), 0 1px 2px rgb(26 23 20 / 0.04);
   --glass-blur: 24px;
 
-  /* Mesh backdrop stops */
-  --mesh-1: rgb(250 204 21 / 0.22);
-  --mesh-2: rgb(59 130 246 / 0.20);
-  --mesh-3: rgb(244 114 182 / 0.14);
-  --mesh-4: rgb(16 185 129 / 0.12);
+  /* Mesh backdrop stops — all warm, so nothing competes with the gold. */
+  --mesh-1: rgb(212 175 55 / 0.20);
+  --mesh-2: rgb(217 119 6 / 0.13);
+  --mesh-3: rgb(180 83 9 / 0.10);
+  --mesh-4: rgb(120 113 108 / 0.10);
 }
 
 .dark {
   color-scheme: dark;
 
-  --surface: #080c15;
-  --surface-raised: #111827;
-  --ink: #f2f5fa;
-  --ink-muted: #9aa5bb;
-  --ink-faint: #6b7689;
+  /* Neutral charcoal, not the old blue-black: a warm accent over a cool
+     ground reads as two competing temperatures. */
+  --surface: #0f0f11;
+  --surface-raised: #17171a;
+  --ink: #e5e7eb;
+  --ink-muted: #a1a1aa;
+  --ink-faint: #71717a;
   --accent: var(--color-gold-400);
-  --accent-contrast: #1a1205;
-  --secondary: var(--color-azure-400);
-  --hairline: rgb(255 255 255 / 0.10);
+  --accent-contrast: #100d04;
+  /* On charcoal the brand gold clears 9.1:1 unaided, so text and fill agree. */
+  --accent-ink: var(--color-gold-400);
+  --secondary: #e8e0cf;
+  --secondary-contrast: #17171a;
+  --chip-active: rgb(212 175 55 / 0.18);
+  --chip-active-ink: var(--color-gold-400);
+  --hairline: rgb(255 255 255 / 0.08);
 
-  --glass-bg: rgb(17 24 39 / 0.55);
-  --glass-bg-strong: rgb(17 24 39 / 0.78);
-  --glass-border: rgb(255 255 255 / 0.14);
-  --glass-highlight: rgb(255 255 255 / 0.20);
-  --glass-shadow: 0 8px 32px rgb(0 0 0 / 0.45), 0 1px 2px rgb(0 0 0 / 0.30);
+  --glass-bg: rgb(30 30 34 / 0.55);
+  --glass-bg-strong: rgb(24 24 27 / 0.80);
+  --glass-border: rgb(255 255 255 / 0.10);
+  --glass-highlight: rgb(212 175 55 / 0.28);
+  --glass-shadow: 0 8px 32px rgb(0 0 0 / 0.55), 0 1px 2px rgb(0 0 0 / 0.40);
   --glass-blur: 28px;
 
-  --mesh-1: rgb(234 179 8 / 0.20);
-  --mesh-2: rgb(37 99 235 / 0.26);
-  --mesh-3: rgb(190 24 93 / 0.16);
-  --mesh-4: rgb(5 150 105 / 0.14);
+  --mesh-1: rgb(212 175 55 / 0.16);
+  --mesh-2: rgb(217 119 6 / 0.12);
+  --mesh-3: rgb(146 64 14 / 0.13);
+  --mesh-4: rgb(113 113 122 / 0.09);
 }
 
 /* ============================================================
@@ -145,23 +174,38 @@
 
   /* Turkish text runs long; never let it break the layout. */
   h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
     text-wrap: balance;
-    line-height: 1.2;
+    line-height: 1.18;
+    /* Playfair has a normal-width space and generous sidebearings, so it
+       wants none of the compensation Jakarta needs below. */
+    word-spacing: normal;
+    letter-spacing: normal;
   }
 
   /* Plus Jakarta Sans ships a narrow space (2px at 14px). Tightening letters
-     on top of that runs words together, so negative tracking is reserved for
-     large display text and every size gets the space nudged back out. */
+     on top of that runs words together, so every size gets the space nudged
+     back out — headings excepted, since they are no longer Jakarta. */
   body {
     word-spacing: 0.055em;
   }
 
+  /* Only true display sizes take negative tracking; a high-contrast serif
+     closes up fast and its thin strokes start colliding. */
   h1, .text-display {
-    letter-spacing: -0.022em;
+    font-family: var(--font-display);
+    letter-spacing: -0.012em;
+    word-spacing: normal;
   }
 
-  h2 {
+  /* Staff tooling stays sans. The kitchen display is read under time
+     pressure, and a display serif costs scanning speed there for a
+     refinement nobody behind the counter is looking at. */
+  [data-surface="ops"] :is(h1, h2, h3, h4) {
+    font-family: var(--font-sans);
     letter-spacing: -0.014em;
+    word-spacing: 0.055em;
   }
 
   p {
@@ -174,7 +218,7 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--accent);
+    outline: 2px solid var(--accent-ink);
     outline-offset: 2px;
     border-radius: 4px;
   }

@@ -35,6 +35,7 @@
   "noResults": "No results",
   "noResultsQuery": "Nothing matched \"{query}\".",
   "noResultsDesc": "No item matches your search.",
+  "noResultsFilters": "No item matches the filters you picked.",
   "filters": "Filters",
   "resultsFor": "{count} results for \"{query}\"",
   "tagVegan": "Vegan",

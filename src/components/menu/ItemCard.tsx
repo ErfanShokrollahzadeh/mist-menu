@@ -17,21 +17,36 @@ import { cn } from "@/lib/cn";
  * decoding 251 photos on the client.
  */
 const CATEGORY_GLOW: Record<string, string> = {
-  kahvalti: "var(--color-gold-400)", omlet: "var(--color-gold-400)",
-  menemen: "var(--color-ember-500)", gozleme: "var(--color-gold-500)",
-  tost: "var(--color-gold-500)", bowl: "var(--color-herb-500)",
-  salatalar: "var(--color-herb-500)", vegan: "var(--color-herb-500)",
-  sandvic: "var(--color-gold-500)", "wrap-ve-quesedilla": "var(--color-ember-500)",
-  aperatifler: "var(--color-gold-400)", burgerler: "var(--color-ember-500)",
-  "makarna-ve-noodes": "var(--color-gold-400)", pizzalar: "var(--color-ember-500)",
-  "beyaz-etler": "var(--color-gold-500)", "kirmizi-etler": "var(--color-cocoa-500)",
-  tatlilar: "var(--color-berry-500)", cay: "var(--color-ember-500)",
-  "soft-icecekler": "var(--color-azure-400)", "espresso-bazli-kahveler": "var(--color-cocoa-500)",
-  "filtre-kahveler": "var(--color-cocoa-500)", "turk-kahveleri": "var(--color-cocoa-500)",
-  "redbull-kokteylleri": "var(--color-berry-500)", "sicak-icecekler": "var(--color-gold-400)",
-  "soguk-kahveler": "var(--color-cocoa-500)", "ev-yapimi-sikmalar": "var(--color-ember-500)",
-  milkshake: "var(--color-berry-500)", frozen: "var(--color-azure-400)",
-  "smoothie-cesitleri": "var(--color-berry-500)", "mist-ozel-kokteyller": "var(--color-berry-500)",
+  kahvalti: "var(--color-gold-400)",
+  omlet: "var(--color-gold-400)",
+  menemen: "var(--color-ember-500)",
+  gozleme: "var(--color-gold-500)",
+  tost: "var(--color-gold-500)",
+  bowl: "var(--color-herb-500)",
+  salatalar: "var(--color-herb-500)",
+  vegan: "var(--color-herb-500)",
+  sandvic: "var(--color-gold-500)",
+  "wrap-ve-quesedilla": "var(--color-ember-500)",
+  aperatifler: "var(--color-gold-400)",
+  burgerler: "var(--color-ember-500)",
+  "makarna-ve-noodes": "var(--color-gold-400)",
+  pizzalar: "var(--color-ember-500)",
+  "beyaz-etler": "var(--color-gold-500)",
+  "kirmizi-etler": "var(--color-cocoa-500)",
+  tatlilar: "var(--color-berry-500)",
+  cay: "var(--color-ember-500)",
+  "soft-icecekler": "var(--color-azure-400)",
+  "espresso-bazli-kahveler": "var(--color-cocoa-500)",
+  "filtre-kahveler": "var(--color-cocoa-500)",
+  "turk-kahveleri": "var(--color-cocoa-500)",
+  "redbull-kokteylleri": "var(--color-berry-500)",
+  "sicak-icecekler": "var(--color-gold-400)",
+  "soguk-kahveler": "var(--color-cocoa-500)",
+  "ev-yapimi-sikmalar": "var(--color-ember-500)",
+  milkshake: "var(--color-berry-500)",
+  frozen: "var(--color-azure-400)",
+  "smoothie-cesitleri": "var(--color-berry-500)",
+  "mist-ozel-kokteyller": "var(--color-berry-500)",
   nargileler: "var(--color-azure-400)",
 };
 
@@ -48,6 +63,13 @@ const CATEGORY_GLOW: Record<string, string> = {
  *   for the entrance cascade, so a CSS `hover:` translate could never win
  *   against it; the image's own `group-hover` zoom already carries the
  *   affordance on pointer devices and costs nothing on phones.
+ * - Tap feedback is CSS, not `whileTap`. Measured, a motion gesture prop on
+ *   82 cards cost ~70-100ms of extra script per interaction — the same
+ *   per-card subscription problem `whileHover` had. It can live on the article
+ *   despite motion owning the `transform` there, because Tailwind v4 compiles
+ *   `scale-*` to the independent `scale` property, which composes with
+ *   `transform` instead of overwriting it. `:active` matches ancestors too, so
+ *   pressing the photo or the add button presses the whole card.
  * - `memo` is load-bearing: without it every keystroke in search re-rendered
  *   all 82 cards, because `useDeferredValue` defers the *query*, not the tree.
  *   It only holds while `onOpen`/`onQuickAdd` stay referentially stable, which
@@ -72,7 +94,7 @@ function ItemCardImpl({
   return (
     <motion.article
       variants={cascadeItem}
-      className="group glass glass-edge content-auto relative overflow-hidden rounded-[var(--radius-card)]"
+      className="group glass glass-edge content-auto relative overflow-hidden rounded-[var(--radius-card)] transition-[scale] duration-150 ease-[var(--ease-out-expo)] active:scale-[0.975]"
       style={{ ["--glow" as string]: glow }}
     >
       <button
@@ -91,7 +113,9 @@ function ItemCardImpl({
               className="object-cover transition-transform duration-[600ms] ease-[var(--ease-out-expo)] group-hover:scale-[1.07]"
               priority={priority}
               {...(priority ? { fetchPriority: "high" as const } : {})}
-              {...(blur ? { placeholder: "blur" as const, blurDataURL: blur } : {})}
+              {...(blur
+                ? { placeholder: "blur" as const, blurDataURL: blur }
+                : {})}
             />
           ) : (
             <div className="size-full bg-[var(--hairline)]" />
@@ -100,11 +124,18 @@ function ItemCardImpl({
           <span className="absolute right-2.5 bottom-2.5 rounded-[var(--radius-pill)] bg-black/60 px-2.5 py-1 text-sm font-bold text-white tabular-nums">
             {formatPrice(item.priceMinor, lang)}
           </span>
-          <DietaryBadges tags={item.tags} t={t} compact className="absolute top-2.5 left-2.5" />
+          <DietaryBadges
+            tags={item.tags}
+            t={t}
+            compact
+            className="absolute top-2.5 left-2.5"
+          />
         </div>
 
         <div className="space-y-1 p-3 pb-2">
-          <h3 className="line-clamp-2 text-sm leading-snug font-semibold">{item.name[lang]}</h3>
+          <h3 className="line-clamp-2 text-[15px] leading-snug font-semibold">
+            {item.name[lang]}
+          </h3>
           {item.description[lang] && (
             <p className="line-clamp-2 text-xs leading-relaxed text-[var(--ink-muted)]">
               {item.description[lang]}
@@ -115,7 +146,9 @@ function ItemCardImpl({
 
       <div className="flex items-center justify-between gap-2 px-3 pb-3">
         {hasChoices ? (
-          <span className="text-[11px] font-medium text-[var(--ink-faint)]">{t("chooseOne")}</span>
+          <span className="text-[11px] font-medium text-[var(--ink-faint)]">
+            {t("chooseOne")}
+          </span>
         ) : (
           <span />
         )}

@@ -24,12 +24,15 @@ function CategorySectionImpl({
   if (!items.length) return null;
 
   return (
-    <section id={`cat-${category.slug}`} className="scroll-mt-32">
+    /* --menu-stick is the measured height of the sticky header, published by
+       useScrollSpy, so jumping to a category lands it just below the bar
+       instead of behind it whatever height that bar happens to be. */
+    <section id={`cat-${category.slug}`} className="scroll-mt-[var(--menu-stick,8rem)]">
       <header className="mb-3 flex items-baseline gap-2.5">
         {/* Icon comes from the data now, not a Turkish-keyed lookup that
             fell back to a generic glyph for every English category name. */}
         <span aria-hidden className="text-xl leading-none">{category.icon}</span>
-        <h2 className="text-lg font-bold tracking-tight">{category.name[lang]}</h2>
+        <h2 className="text-xl font-semibold">{category.name[lang]}</h2>
         <span className="text-xs font-medium text-[var(--ink-faint)] tabular-nums">
           {t("itemsCount", { count: items.length })}
         </span>

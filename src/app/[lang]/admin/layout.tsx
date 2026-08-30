@@ -17,7 +17,9 @@ export const metadata: Metadata = {
 export default function AdminLayout({ children }: { children: ReactNode }) {
   return (
     <LoginGate>
-      <div className="min-h-dvh">
+      {/* data-surface="ops" opts staff tooling out of the customer serif:
+          a kitchen display is scanned at speed, where a sans face wins. */}
+      <div data-surface="ops" className="min-h-dvh">
         <AdminBar />
         <main className="mx-auto w-full max-w-[1600px] px-3 py-4 sm:px-5">{children}</main>
       </div>
