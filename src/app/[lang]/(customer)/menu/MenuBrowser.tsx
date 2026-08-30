@@ -8,7 +8,8 @@ import { toast } from "sonner";
 import type { MenuItem, DietaryTag } from "@/types/menu";
 import { groups, categoriesInGroup, getCategory } from "@/lib/menu";
 import { loadSearch, searchMenu } from "@/lib/search";
-import { useScrollSpy, useHeaderCollapse, jumpToCategory } from "@/lib/useScrollSpy";
+import { useScrollSpy, jumpToCategory } from "@/lib/useScrollSpy";
+import { useScrolledDown } from "@/lib/useScrolledDown";
 import { useLanguage } from "@/lib/i18n/LanguageProvider";
 import { useCart } from "@/stores/cart";
 import { GroupTabs } from "@/components/menu/GroupTabs";
@@ -123,7 +124,7 @@ export function MenuBrowser() {
   /* Scrolling down folds the search and chips away so the food gets the
      screen; scrolling up brings them straight back. Never while searching —
      hiding the field you are typing into would be absurd. */
-  const scrolledDown = useHeaderCollapse();
+  const scrolledDown = useScrolledDown();
   const collapsed = scrolledDown && !searching && tags.length === 0;
 
   /*

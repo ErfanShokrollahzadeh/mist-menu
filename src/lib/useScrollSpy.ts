@@ -106,51 +106,6 @@ export function useScrollSpy(slugs: string[], enabled: boolean) {
   return { active, headerRef };
 }
 
-/**
- * Collapses the search field and dietary chips while the reader is scrolling
- * down, and brings them back the moment they scroll up.
- *
- * The full header is 230px — 27% of a 390x844 phone — which is a lot of chrome
- * to hold in front of the food. Everything needed to *navigate* (group tabs,
- * category rail) stays pinned; only the two rows used to *start* a search fold
- * away, and any upward scroll is read as "I want the controls back".
- *
- * One passive listener, coalesced into a frame. The expensive thing in this
- * app was never a scroll listener — it was animating the blurred backdrop
- * underneath 255 glass surfaces.
- */
-export function useHeaderCollapse(threshold = 220) {
-  const [collapsed, setCollapsed] = useState(false);
-
-  useEffect(() => {
-    let frame = 0;
-    let last = window.scrollY;
-
-    const read = () => {
-      frame = 0;
-      const y = window.scrollY;
-      const delta = y - last;
-      // Ignore sub-pixel jitter and rubber-banding at the top.
-      if (Math.abs(delta) > 6) {
-        setCollapsed(y > threshold && delta > 0);
-        last = y;
-      }
-      if (y <= threshold) setCollapsed(false);
-    };
-    const onScroll = () => {
-      if (!frame) frame = requestAnimationFrame(read);
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      if (frame) cancelAnimationFrame(frame);
-    };
-  }, [threshold]);
-
-  return collapsed;
-}
-
 /** Smooth-scrolls a category into view, respecting the sticky header offset. */
 export function jumpToCategory(slug: string) {
   const el = document.getElementById(`cat-${slug}`);
