@@ -14,7 +14,8 @@
     "prebuild": "node scripts/build-client-menu.mjs",
     "predev": "node scripts/build-client-menu.mjs",
     "data:lqip": "node scripts/build-image-lqip.mjs",
-    "verify:perf": "node scripts/perf/menu-perf.mjs"
+    "verify:perf": "node scripts/perf/menu-perf.mjs",
+    "verify:glass": "node scripts/e2e/glass-contrast.mjs"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
